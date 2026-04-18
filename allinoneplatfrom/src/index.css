@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+:root {
+  --brand-primary: #6366f1;
+  --brand-primary-light: #818cf8;
+  --brand-dark: #0f172a;
+  --brand-dark-lighter: #1e293b;
+  --brand-accent: #f59e0b;
+  --brand-bg: #f8fafc;
+  --brand-success: #10b981;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--brand-bg);
+  color: var(--brand-dark);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Premium Card Utility */
+.premium-card {
+  @apply bg-white/70 backdrop-blur-md border border-white/20 rounded-3xl shadow-xl transition-all duration-300;
+}
+
+.premium-card:hover {
+  @apply shadow-2xl shadow-indigo-500/10 -translate-y-1;
+}
+
+/* Glass Header Utility */
+.glass-header {
+  @apply sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100;
+}
+
+/* Premium Button (Shimmer) */
+.btn-premium {
+  @apply relative overflow-hidden bg-slate-900 text-white px-8 py-3 rounded-2xl font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95;
+}
+
+.btn-premium::after {
+  content: "";
+  @apply absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg] transition-all duration-700;
+}
+
+.btn-premium:hover::after {
+  @apply left-full;
+}
+
+.input {
+  @apply bg-slate-50 border border-slate-200 text-slate-900 px-4 py-3 rounded-xl w-full outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all;
+}
+
+/* --- New Premium Utilities --- */
+
+.bg-grain {
+  position: relative;
+}
+
+.bg-grain::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  filter: contrast(170%) brightness(100%);
+  z-index: -1;
+}
+
+.mask-fade-bottom {
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+.mask-fade-top {
+  mask-image: linear-gradient(to top, black 80%, transparent 100%);
+}
+
+.glass-morphism {
+  @apply bg-white/10 backdrop-blur-md border border-white/20;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500;
+}
+
+/* --- New Marquee & Mesh Utilities --- */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes mesh {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  33% {
+    transform: scale(1.1) translate(-2%, 2%);
+  }
+  66% {
+    transform: scale(0.9) translate(2%, -2%);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+.animate-mesh {
+  animation: mesh 20s ease-in-out infinite alternate;
+}
+
+/* Custom Scrollbar (Indigo) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-indigo-200 rounded-full transition-colors hover:bg-indigo-300;
+}
