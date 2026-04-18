@@ -273,66 +273,66 @@ export const paymentAPI = async (reqBody, reqHeader) => {
 };
 
 export const getAllNewArrivalsAPI = async (reqHeader) => {
-  return await commanAPI(
-    "GET",
-    `${serverURL}/api/newarrivals`,
-    {},
-    reqHeader
-  );
+    return await commanAPI(
+        "GET",
+        `${serverURL}/api/newarrivals`,
+        {},
+        reqHeader
+    );
 };
- 
+
 // GET filtered + sorted products via query params
 export const getFilteredNewArrivalsAPI = async (category, sort, reqHeader) => {
-  const params = new URLSearchParams();
-  if (category) params.append("category", category);
-  if (sort && sort !== "newest") params.append("sort", sort);
+    const params = new URLSearchParams();
+    if (category) params.append("category", category);
+    if (sort && sort !== "newest") params.append("sort", sort);
 
-  const query = params.toString() ? `?${params.toString()}` : "";
+    const query = params.toString() ? `?${params.toString()}` : "";
 
-  return await commanAPI(
-    "GET",
-    `${serverURL}/api/newarrivals${query}`,
-    {},
-    reqHeader
-  );
+    return await commanAPI(
+        "GET",
+        `${serverURL}/api/newarrivals${query}`,
+        {},
+        reqHeader
+    );
 };
- 
+
 // GET single product by ID
 export const getNewArrivalByIdAPI = async (id, reqHeader) => {
-  return await commanAPI(
-    "GET",
-    `${serverURL}/api/newarrivals/${id}`,
-    {},
-    reqHeader
-  );
+    return await commanAPI(
+        "GET",
+        `${serverURL}/api/newarrivals/${id}`,
+        {},
+        reqHeader
+    );
 };
- 
+
 // POST create a new product (Admin)
 export const createNewArrivalAPI = async (reqBody, reqHeader) => {
-  return await commanAPI(
-    "POST",
-    `${serverURL}/api/newarrivals`,
-    reqBody,
-    reqHeader
-  );
+    return await commanAPI(
+        "POST",
+        `${serverURL}/api/newarrivals`,
+        reqBody,
+        reqHeader
+    );
 };
- 
+
 // PUT update a product by ID (Admin)
 export const updateNewArrivalAPI = async (id, reqBody, reqHeader) => {
-  return await commanAPI(
-    "PUT",
-    `${serverURL}/api/newarrivals/${id}`,
-    reqBody,
-    reqHeader
-  );
+    return await commanAPI(
+        "PUT",
+        `${serverURL}/api/newarrivals/${id}`,
+        reqBody,
+        reqHeader
+    );
 };
- 
+
 // DELETE a product by ID (Admin)
 export const deleteNewArrivalAPI = async (id, reqHeader) => {
-  return await commanAPI(
-    "DELETE",
-    `${serverURL}/api/newarrivals/${id}`,
-    {},
-    reqHeader
-  );
+    return await commanAPI(
+        "DELETE",
+        `${serverURL}/api/newarrivals/${id}`,
+        {},
+        reqHeader
+    );
 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getSingleApplicantAPI } from "../../../services/AllAPI";
+import { serverURL } from "../../../services/serverURL";
 
 export default function CandidateProfile() {
 
@@ -62,7 +63,7 @@ export default function CandidateProfile() {
                 {user.resume?.map((file, index) => (
                     <div key={index}>
                         <a
-                            href={`http://localhost:3000/uploads/resumes/${file}`}
+                            href={`${serverURL}/uploads/resumes/${file}`}
 
                             target="_blank"
                             rel="noreferrer"

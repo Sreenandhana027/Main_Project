@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Bell, Plus, Trash2, ArrowRight, Users, Briefcase, MapPin, Clock, BriefcaseBusiness, Building2, DollarSign, Award, AlignLeft, X, Sparkles } from "lucide-react";
 import { addJobAPI, deleteJobAPI, getCompanyApplicantsAPI, getCompanyJobsAPI, updateApplicationStatusAPI } from "../../../services/AllAPI";
+import { serverURL } from "../../../services/serverURL";
 import { FaUserCircle } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { successToast } from "../../../toastHelper";
@@ -563,7 +564,7 @@ export default function CompanyDashboard() {
                   <p>
                     <span className="font-semibold">Resume:</span>
                     <a                                                                             // ✅ add <a here
-                      href={`http://localhost:3000/uploads/resumes/${selectedApplicant.resume}`}
+                      href={`${serverURL}/uploads/resumes/${selectedApplicant.resume}`}
                       target="_blank"
                       className="ml-2 bg-green-600 text-white text-xs px-3 py-1 rounded hover:bg-green-700"
                     >

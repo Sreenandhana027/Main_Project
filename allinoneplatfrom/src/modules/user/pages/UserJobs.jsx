@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { getMyApplicationsAPI } from "../../../services/AllAPI";
+import { serverURL } from "../../../services/serverURL";
 
 export default function MyApplication() {
     const [applications, setApplications] = useState([]);
@@ -241,7 +242,7 @@ export default function MyApplication() {
                                     <div className="flex items-center gap-6">
                                         {app.resume && (
                                             <a
-                                                href={`http://localhost:3000/uploads/resumes/${app.resume}`}
+                                                href={`${serverURL}/uploads/resumes/${app.resume}`}
                                                 target="_blank"
                                                 rel="noreferrer"
                                                 className="text-xs font-bold text-slate-600 flex items-center gap-2 hover:text-brand-primary transition-colors"
