@@ -524,7 +524,7 @@ export default function Auth() {
                                         <path d="M2 12l10 5 10-5" />
                                     </svg>
                                 </div>
-                                <span className="brand-name">CareerCraft Pro</span>
+                                <span className="brand-name">PrepVault</span>
                             </div>
 
                             <h1 className="left-headline">

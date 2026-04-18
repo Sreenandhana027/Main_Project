@@ -11,7 +11,7 @@ export default function CompanyHeader() {
     <header className="bg-white border-b sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
 
-        <h1 className="text-2xl font-bold">CareerCraftPro</h1>
+        <h1 className="text-2xl font-bold">PrepVault</h1>
 
         <div className="flex items-center gap-5 relative">
 

@@ -12,20 +12,20 @@ import {
 } from "lucide-react";
 import { FaRegHeart } from "react-icons/fa";
 /**
- * ✅ Footer with Protected Navigation
+ * Footer with Protected Navigation
  * Redirects unauthenticated users to /plslogn if non-public links are clicked.
  */
 const Footer = () => {
     const navigate = useNavigate();
     const currentYear = new Date().getFullYear();
 
-    // ✅ Centralized Auth Check
+    // Centralized Auth Check
     const isLoggedIn = !!(
         localStorage.getItem("userToken") ||
         localStorage.getItem("companyToken")
     );
 
-    // ✅ Universal Navigation Handler (Strict)
+    // Universal Navigation Handler (Strict)
     const go = (path) => {
         // Only About and Login routes are public
         const publicRoutes = ["/about", "/plslogn", "/auth", "/role"];
@@ -79,12 +79,12 @@ const Footer = () => {
                                 <Sparkles size={20} />
                             </div>
                             <span className="text-2xl font-black tracking-tighter text-white">
-                                CareerCraft<span className="text-sky-400">Pro</span>
+                                Prep<span className="text-sky-400">Vault</span>
                             </span>
                         </button>
                         <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
                             The ultimate ecosystem for modern job seekers. Prepare, apply,
-                            and secure your future with CareerCraftPro.
+                            and secure your future with PrepVault.
                         </p>
                         <div className="flex items-center gap-4">
                             {[Linkedin, Github, Twitter, Instagram].map((Icon, i) => (
@@ -145,7 +145,7 @@ const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
                     <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">
-                        © {currentYear} CareerCraft Pro. All rights reserved.
+                        © {currentYear} PrepVault. All rights reserved.
                     </p>
                     <div className="flex items-center gap-8">
                         <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest flex items-center gap-2">

@@ -157,7 +157,7 @@ export default function ShoppingHome() {
       {/* HEADER */}
       <header ref={headerRef} className="border-b sticky top-0 z-50 bg-white">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-          <div className="font-semibold tracking-wide">CareerCraftPro</div>
+          <div className="font-semibold tracking-wide">PrepVault</div>
 
           <nav className="hidden md:flex gap-8 text-sm">
             <Link to="/category/men" className="hover:underline">Men</Link>
@@ -269,7 +269,7 @@ export default function ShoppingHome() {
           style={{ top: "-10%" }}
         />
         <div className="relative z-10 max-w-4xl mx-auto h-full flex flex-col justify-center px-6">
-          <p className="tracking-widest text-sm mb-4 opacity-80">CareerCraftPro</p>
+          <p className="tracking-widest text-sm mb-4 opacity-80">PrepVault</p>
           <h1 ref={heroTextRef} className="text-6xl italic mb-6 opacity-0">Dress for Success</h1>
           <p ref={heroSubRef} className="max-w-xl text-sm opacity-0 mb-8">
             Shop professional formal wear, interview outfits, and essential accessories
@@ -339,7 +339,7 @@ export default function ShoppingHome() {
       <footer ref={footerRef} className="bg-white text-gray-800 border-t mt-20 opacity-0">
         <div className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-4 gap-10">
           <div>
-            <h2 className="font-semibold tracking-wide mb-4">CareerCraftPro</h2>
+            <h2 className="font-semibold tracking-wide mb-4">PrepVault</h2>
             <p className="text-sm text-gray-500 leading-relaxed">
               Elevated essentials for the contemporary individual. Crafted with intention and sustainable principles.
             </p>
@@ -364,7 +364,7 @@ export default function ShoppingHome() {
           </div>
         </div>
         <div className="border-t py-6 px-6 text-xs text-gray-500 flex flex-col md:flex-row justify-between max-w-7xl mx-auto">
-          <p>© 2024 CareerCraftPro. All rights reserved.</p>
+          <p>© 2024 PrepVault. All rights reserved.</p>
           <div className="flex gap-6 mt-3 md:mt-0">
             <span>Terms</span><span>Privacy</span><span>Cookies</span>
           </div>

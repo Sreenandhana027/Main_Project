@@ -114,7 +114,7 @@ export default function MyApplication() {
                 <div className="w-9 h-9 bg-blue-500 rounded-lg flex items-center justify-center">
                     <Briefcase size={18} className="text-white" />
                 </div>
-                <span className="text-white text-lg font-medium">CareerCraftPro</span>
+                <span className="text-white text-lg font-medium">PrepVault</span>
                 <span className="text-blue-300 text-sm ml-auto">My Applications</span>
             </div>
 

@@ -13,7 +13,7 @@ function PleaseLogin() {
         Please Login to Continue
       </h1>
       <p className="text-gray-500 text-lg max-w-md mb-10">
-        You need to be logged in to access CareerCraft Pro. Choose your role to get started.
+        You need to be logged in to access PrepVault. Choose your role to get started.
       </p>
 
       <button

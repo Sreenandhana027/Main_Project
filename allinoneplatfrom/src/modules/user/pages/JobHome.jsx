@@ -17,7 +17,7 @@ export default function JobHome() {
     <div className="min-h-screen bg-white text-gray-900 flex flex-col">
 
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-gray-50 to-white border-b border-gray-200">
+      <section className="relative overflow-hidden bg-linear-to-b from-gray-50 to-white border-b border-gray-200">
         {/* Subtle decorative blobs */}
         <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-teal-100/30 rounded-full blur-3xl"></div>
         <div className="absolute top-20 -right-40 w-[500px] h-[500px] bg-cyan-100/20 rounded-full blur-3xl"></div>
@@ -123,7 +123,7 @@ export default function JobHome() {
           {/* Brand */}
           <div className="md:col-span-1">
             <h3 className="text-3xl md:text-4xl font-extrabold mb-5 text-white">
-              CareerCraftPro
+              PrepVault
             </h3>
             <p className="text-gray-400 leading-relaxed">
               Connecting exceptional talent with forward-thinking companies across India and beyond.
@@ -165,7 +165,7 @@ export default function JobHome() {
         </div>
 
         <div className="border-t border-gray-800 py-6 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} CareerCraftPro — Made with passion in Kerala
+          © {new Date().getFullYear()} PrepVault — Made with passion in Kerala
         </div>
       </footer>
 

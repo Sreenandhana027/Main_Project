@@ -38,7 +38,7 @@ function HomePreloader() {
           color: "#111",
         }}
       >
-        CareerCraft Pro
+        PrepVault
       </p>
       <p style={{ marginTop: 6, fontSize: 13, color: "#6b7280" }}>
         Loading your experience...
@@ -92,7 +92,7 @@ function UserHome() {
           <section className="flex flex-col items-center text-center mt-20 px-6">
             <h1 className="text-5xl font-extrabold tracking-tight">
               Welcome to{" "}
-              <span className="border-b-[3px] border-black">CareerCraft Pro</span>
+              <span className="border-b-[3px] border-black">PrepVault</span>
             </h1>
 
             <p className="mt-4 text-lg max-w-2xl text-gray-700 leading-relaxed">
@@ -150,10 +150,10 @@ function UserHome() {
 
           {/* Summary Section */}
           <section className="mt-24 px-10 mb-20">
-            <h2 className="text-3xl font-bold text-center mb-6">Why ReadyJob360?</h2>
+            <h2 className="text-3xl font-bold text-center mb-6">Why PrepVault?</h2>
 
             <p className="text-center max-w-3xl mx-auto text-gray-700 text-lg leading-relaxed">
-              ReadyJob360 brings together everything needed for a smooth hiring experience.
+              PrepVault brings together everything needed for a smooth hiring experience.
               Our platform delivers powerful tools for every user role:
               <br /><br />
 

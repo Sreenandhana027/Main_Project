@@ -337,7 +337,7 @@ const Tips = () => {
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-white">
           <div ref={heroBadgeRef} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-medium mb-8 backdrop-blur-sm opacity-0">
             <Rocket className="w-4 h-4 text-amber-300" />
-            <span className="text-white/90">CareerCraft Pro — Expert Tips</span>
+            <span className="text-white/90">PrepVault — Expert Tips</span>
           </div>
           <h1 ref={heroTextRef} className="text-6xl md:text-8xl font-black tracking-tight leading-none mb-6 opacity-0">
             Own Every<br />
@@ -371,7 +371,7 @@ const Tips = () => {
             and the mindset you walk in with."
           </p>
           <p className="mt-4 text-sm text-gray-400 font-medium tracking-widest uppercase">
-            CareerCraft Pro Philosophy
+            PrepVault Philosophy
           </p>
         </div>
       </section>

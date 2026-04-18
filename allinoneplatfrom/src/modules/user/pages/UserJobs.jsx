@@ -115,7 +115,7 @@ export default function MyApplication() {
                     <div className="w-10 h-10 bg-brand-primary rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
                         <Briefcase size={20} className="text-white" />
                     </div>
-                    <span className="text-brand-dark text-xl font-bold tracking-tight">CareerCraft<span className="text-brand-primary">Pro</span></span>
+                    <span className="text-brand-dark text-xl font-bold tracking-tight">Prep<span className="text-brand-primary">Vault</span></span>
                 </div>
                 <div className="hidden md:flex items-center gap-2 px-4 py-1.5 bg-brand-primary/5 rounded-full border border-brand-primary/10">
                     <div className="w-2 h-2 bg-brand-primary rounded-full animate-pulse"></div>

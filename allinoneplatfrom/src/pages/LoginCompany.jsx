@@ -93,7 +93,7 @@ export default function LoginCompany() {
           </h1>
           <p className="text-gray-300 text-sm leading-relaxed">
             Manage job postings, track applicants, and grow your hiring
-            process efficiently with CareerCraftPro company dashboard.
+            process efficiently with PrepVault company dashboard.
           </p>
         </div>
 

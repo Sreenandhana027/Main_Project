@@ -178,9 +178,9 @@ const go = (route) => {
           {/* Logo — public, always works */}
           <button onClick={() => go("/home")} className="flex items-center gap-3 bg-transparent border-none cursor-pointer p-0">
             <div className="w-10 h-10 bg-sky-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-sky-500/20 text-sm">
-              CC
+              PV
             </div>
-            <span className="font-black text-lg tracking-tight text-slate-900">CareerCraftPro</span>
+            <span className="font-black text-lg tracking-tight text-slate-900">PrepVault</span>
           </button>
 
           {/* Nav Links — all protected except About */}
@@ -224,7 +224,7 @@ const go = (route) => {
             </h1>
 
             <p className="text-slate-500 text-lg max-w-lg leading-relaxed mb-10">
-              CareerCraftPro is the only platform that combines mock interview videos, aptitude tests,
+              PrepVault is the only platform that combines mock interview videos, aptitude tests,
               a question bank, resume builder, costume guide, and an interview store — all in one place.
             </p>
 
@@ -333,7 +333,7 @@ const go = (route) => {
           <p className="text-slate-500 text-lg leading-relaxed">
             Most platforms give you questions. We give you the full picture — the confidence to speak,
             the knowledge to answer, the look to impress, and the connections to actually get hired.
-            CareerCraftPro is your complete interview journey, from day one to offer letter.
+            PrepVault is your complete interview journey, from day one to offer letter.
           </p>
         </div>
       </section>

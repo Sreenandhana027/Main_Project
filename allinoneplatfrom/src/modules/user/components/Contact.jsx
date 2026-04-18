@@ -100,7 +100,7 @@ export default function Contact() {
                                 <ContactCard
                                     icon={Mail}
                                     title="Email Us"
-                                    value="support@careercraftpro.com"
+                                    value="support@prepvault.com"
                                     delay={0.2}
                                 />
                                 <ContactCard

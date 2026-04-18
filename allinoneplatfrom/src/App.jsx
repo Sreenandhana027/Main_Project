@@ -123,7 +123,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<AboutPage />} />
 
-            {/* 
+            {/*
           <Route path="/company/:name" element={<CompanyProfile />} />
           <Route path='/company' element={<JobVacancies />} /> */}
 

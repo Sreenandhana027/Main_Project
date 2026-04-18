@@ -153,9 +153,9 @@ export default function CompanyDashboard() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-teal-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md">
-              CC
+              PV
             </div>
-            <span className="text-xl font-semibold text-gray-900">CareerCraftPro</span>
+            <span className="text-xl font-semibold text-gray-900">PrepVault</span>
           </div>
           <div className="flex items-center gap-6">
             <button className="relative transition-transform hover:scale-110 active:scale-95">
@@ -175,7 +175,7 @@ export default function CompanyDashboard() {
         <div className="absolute inset-0 bg-linear-to-r from-gray-900/70 via-gray-900/60 to-gray-900/50"></div>
         <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-6 text-white">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 drop-shadow-lg">
-            CareerCraftPro
+            PrepVault
           </h1>
           <p className="text-lg md:text-2xl font-light max-w-3xl mb-8 drop-shadow-md">
             Connecting exceptional talent with forward-thinking companies

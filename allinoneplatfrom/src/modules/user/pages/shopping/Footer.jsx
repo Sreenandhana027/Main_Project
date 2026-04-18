@@ -49,7 +49,7 @@ const Footer = () => {
                                 <Sparkles className="w-6 h-6 text-white" />
                             </div>
                             <span className="text-2xl font-black tracking-tighter text-white">
-                                CareerCraft<span className="text-indigo-400">Pro</span>
+                                Prep<span className="text-indigo-400">Vault</span>
                             </span>
                         </Link>
                         <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
@@ -98,7 +98,7 @@ const Footer = () => {
                         <div className="space-y-4">
                             <div className="flex items-center gap-3 text-slate-400 text-sm hover:text-white transition-colors">
                                 <Mail className="w-4 h-4 text-indigo-400" />
-                                support@careercraftpro.com
+                                support@prepvault.com
                             </div>
                             <div className="flex items-center gap-3 text-white/10 pt-4">
                                 <ShieldCheck className="w-4 h-4 text-emerald-500/50" />
@@ -111,7 +111,7 @@ const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
                     <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">
-                        © {currentYear} CareerCraft Pro. All rights reserved.
+                        © {currentYear} PrepVault. All rights reserved.
                     </p>
                     <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">
                         Built with ❤️ in Kerala

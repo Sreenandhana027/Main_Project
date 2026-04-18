@@ -71,7 +71,7 @@ export default function ApplySuccess() {
 
         {/* Footer note */}
         <div className="px-8 py-6 bg-gray-50 border-t border-gray-100 text-center text-sm text-gray-500">
-          Thank you for choosing CareerCraftPro — we wish you the best of luck!
+          Thank you for choosing PrepVault — we wish you the best of luck!
         </div>
       </div>
     </div>

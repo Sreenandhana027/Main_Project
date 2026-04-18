@@ -6,7 +6,7 @@ function Navbar() {
       <nav className="max-w-6xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
         <h1 className="text-2xl font-bold text-gray-800">
-          CareerCraft Pro<span className="text-blue-600">360</span>
+          PrepVault<span className="text-blue-600">360</span>
         </h1>
 
         {/* Menu */}

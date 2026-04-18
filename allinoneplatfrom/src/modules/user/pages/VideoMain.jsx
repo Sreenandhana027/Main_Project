@@ -65,7 +65,7 @@ export default function VideoMain() {
 
             <p className="text-slate-500 text-lg md:text-xl max-w-2xl leading-relaxed mb-10">
               Immerse yourself in our premium video library. From high-stakes interviews
-              to technical excellence, learn with CareerCraft TV.
+              to technical excellence, learn with PrepVault TV.
             </p>
 
             {/* <div className="flex items-center gap-4">

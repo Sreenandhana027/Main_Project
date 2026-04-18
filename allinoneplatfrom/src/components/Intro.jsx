@@ -296,7 +296,7 @@ function UserHome() {
                                 Ready to take the <br /> <span className="text-indigo-400">next step?</span>
                             </h2>
                             <p className="text-slate-400 mb-12 text-lg max-w-xl mx-auto">
-                                Join thousands of professionals who have already secured their dream roles using CareerCraft Pro.
+                                Join thousands of professionals who have already secured their dream roles using PrepVault.
                             </p>
                             <button
                                 onClick={handleStart}

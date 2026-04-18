@@ -61,7 +61,7 @@ export default function NewArrivals() {
       {/* HEADER */}
       <header className="border-b">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-          <div className="font-semibold tracking-wide">CareerCraftPro</div>
+          <div className="font-semibold tracking-wide">PrepVault</div>
 
           <nav className="hidden md:flex gap-8 text-sm">
             <a href="#">Collections</a>
