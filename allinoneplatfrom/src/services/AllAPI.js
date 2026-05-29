@@ -12,7 +12,7 @@ export const registerUserAPI = async (reqBody) => {
 export const loginUserAPI = async (reqBody) => {
     return await commanAPI("POST", `${serverURL}/api/login`, reqBody, {});
 };
-
+    
 // Google Login
 export const googleLoginUserAPI = async (reqBody) => {
     return await commanAPI("POST", `${serverURL}/api/google-login`, reqBody, {});
@@ -214,12 +214,11 @@ export const deleteVideoAPI = (id, reqHeader) =>
 export const getProductsAPI = async (category) => {
     return await commanAPI(
         "GET",
-        `${serverURL}/api/products?category=${category}`,
+        category ? `${serverURL}/api/products?category=${category}` : `${serverURL}/api/products`,
         "",
         ""
     );
 };
-
 
 export const getSingleProductAPI = async (id) => {
     return await commanAPI(
@@ -227,6 +226,33 @@ export const getSingleProductAPI = async (id) => {
         `${serverURL}/api/product/${id}`,
         "",
         ""
+    );
+};
+
+export const addProductAPI = async (reqBody, reqHeader) => {
+    return await commanAPI(
+        "POST",
+        `${serverURL}/api/product/add`,
+        reqBody,
+        reqHeader
+    );
+};
+
+export const updateProductAPI = async (id, reqBody, reqHeader) => {
+    return await commanAPI(
+        "PUT",
+        `${serverURL}/api/product/update/${id}`,
+        reqBody,
+        reqHeader
+    );
+};
+
+export const deleteProductAPI = async (id, reqHeader) => {
+    return await commanAPI(
+        "DELETE",
+        `${serverURL}/api/product/delete/${id}`,
+        {},
+        reqHeader
     );
 };
 

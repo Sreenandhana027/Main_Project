@@ -9,7 +9,11 @@ import {
   Instagram,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import { CiSettings } from "react-icons/ci";
+import { IoColorPaletteOutline } from "react-icons/io5";
+import { BsGraphUpArrow } from "react-icons/bs";
+import { FaMoneyBill1Wave } from "react-icons/fa6";
+import { MdCopyright } from "react-icons/md";
 export default function JobHome() {
   const navigate = useNavigate();
 
@@ -30,7 +34,7 @@ export default function JobHome() {
 
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold leading-tight tracking-tight">
             Find your next{" "}
-            <span className="bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
               great role
             </span>
           </h1>
@@ -69,12 +73,13 @@ export default function JobHome() {
                     className="w-full outline-none text-gray-900 placeholder-gray-500 text-base"
                   />
                 </div>
+                <div classname="flex d-flex text-gray"></div>
                 */}
               </div>
 
               <button
                 onClick={() => navigate("/jobs")}
-                className="mt-6 w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white py-5 rounded-2xl font-semibold text-lg transition-all shadow-lg shadow-teal-200/30 hover:shadow-teal-300/40 hover:scale-[1.015]"
+                className="mt-6 w-full bg-linear-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white py-5 rounded-2xl font-semibold text-lg transition-all shadow-lg shadow-teal-200/30 hover:shadow-teal-300/40 hover:scale-[1.015]"
               >
                 Explore All Vacancies
               </button>
@@ -97,10 +102,10 @@ export default function JobHome() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6">
           {[
-            { name: "Engineering", icon: "⚙️" },
-            { name: "Design", icon: "🎨" },
-            { name: "Marketing", icon: "📈" },
-            { name: "Finance", icon: "💰" },
+            { name: "Engineering", icon: <CiSettings size={52} color="blue"/> },
+            { name: "Design", icon: <IoColorPaletteOutline  size={52} color="pink"/> },
+            { name: "Marketing", icon: <BsGraphUpArrow  size={52} color="red"/> },
+            { name: "Finance", icon: <FaMoneyBill1Wave size={52} color="green"/> },
           ].map((cat) => (
             <div
               key={cat.name}
@@ -165,7 +170,8 @@ export default function JobHome() {
         </div>
 
         <div className="border-t border-gray-800 py-6 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} PrepVault — Made with passion in Kerala
+          <MdCopyright />
+ {new Date().getFullYear()} PrepVault — Made with passion in Kerala
         </div>
       </footer>
 

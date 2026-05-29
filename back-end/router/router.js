@@ -163,6 +163,8 @@ route.delete("/api/delete-video/:id", videoController.deleteVideo);
 route.get("/api/products", productController.getProducts);
 route.get("/api/product/:id", productController.getSingleProduct);
 route.post("/api/product/add", productController.addProduct);
+route.put("/api/product/update/:id", productController.updateProduct);
+route.delete("/api/product/delete/:id", productController.deleteProduct);
 
 
 

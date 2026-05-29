@@ -39,60 +39,77 @@ export default function CategoryPage() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
 
           {products.map((item) => {
-
-            const isWishlisted = wishlist.find(
-              (w) => w._id === item._id
-            );
+            const isWishlisted = wishlist.find((w) => w._id === item._id);
+            const originalPrice = item.price;
+            const discountedPrice = item.discount 
+              ? Math.round(originalPrice - (originalPrice * item.discount / 100)) 
+              : originalPrice;
 
             return (
               <div
                 key={item._id}
-                className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition"
+                className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col"
               >
-
                 {/* IMAGE */}
-                <div className="relative">
+                <div className="relative h-80 overflow-hidden bg-gray-50 flex-shrink-0">
                   <Link to={`/product/${item._id}`}>
                     <img
                       src={item.image}
-                      className="h-[260px] w-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       alt={item.name}
                     />
                   </Link>
+                  {/* DISCOUNT BADGE */}
+                  {item.discount > 0 && (
+                    <div className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-widest shadow-lg">
+                      {item.discount}% OFF
+                    </div>
+                  )}
 
                   {/*  WISHLIST BUTTON */}
                   <button
                     onClick={() => toggleWishlist(item)}
-                    className={`absolute top-3 right-3 rounded-full p-2 shadow transition 
-                      ${isWishlisted ? "bg-black text-white" : "bg-white"}`}
+                    className={`absolute top-4 right-4 rounded-full p-2.5 shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100
+                      ${isWishlisted ? "bg-black text-white hover:bg-gray-800" : "bg-white text-black hover:bg-gray-100"}`}
                   >
-                    <Heart size={16} />
+                    <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
+                  </button>
+
+                  {/* ADD TO CART OVERLAY BUTTON */}
+                  <button
+                    onClick={() => addToCart(item)}
+                    className="absolute inset-x-0 bottom-4 mx-auto w-11/12 bg-black text-white py-3 text-xs font-semibold uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 rounded shadow-2xl hover:bg-gray-900"
+                  >
+                    Add to Cart
                   </button>
                 </div>
 
                 {/* INFO */}
-                <div className="p-4">
+                <div className="p-6 text-center flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-800 mb-1 line-clamp-1">
+                      {item.name}
+                    </h3>
+                    {item.offers && (
+                      <p className="text-[10px] text-green-600 font-bold mb-2 uppercase tracking-tight truncate">
+                        {item.offers}
+                      </p>
+                    )}
+                  </div>
 
-                  <h3 className="text-sm font-medium">
-                    {item.name}
-                  </h3>
-
-                  <p className="text-gray-500 text-sm mt-1">
-                    ${item.price}
-                  </p>
-
-                  {/*  ADD TO CART */}
-                  <button
-                    onClick={() => addToCart(item)}
-                    className="mt-4 w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-black text-white text-sm hover:bg-gray-800 transition"
-                  >
-                    <ShoppingBag size={16} />
-                    Add to Cart
-                  </button>
-
+                  <div className="mt-3">
+                    {item.discount > 0 ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-gray-400 line-through text-xs font-medium">₹{originalPrice}</span>
+                        <span className="text-lg font-bold text-black font-serif">₹{discountedPrice}</span>
+                      </div>
+                    ) : (
+                      <p className="text-lg font-bold text-black font-serif">₹{originalPrice}</p>
+                    )}
+                  </div>
                 </div>
               </div>
             );

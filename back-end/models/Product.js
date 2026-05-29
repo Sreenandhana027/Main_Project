@@ -8,7 +8,8 @@ const productSchema = new mongoose.Schema({
   image: String,
   category: String,
   description: String,
-
+  discount: { type: Number, default: 0 },
+  offers: { type: String, default: "" },
 });
 
 module.exports = mongoose.model("Product", productSchema);

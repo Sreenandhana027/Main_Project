@@ -47,3 +47,27 @@ exports.addProduct = async (req, res) => {
         res.status(500).json({ message: "Server Error", err });
     }
 };
+
+// *update product (admin)
+exports.updateProduct = async (req, res) => {
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+        res.status(200).json(updatedProduct);
+    } catch (err) {
+        res.status(500).json({ message: "Server Error", err });
+    }
+};
+
+// *delete product (admin)
+exports.deleteProduct = async (req, res) => {
+    try {
+        await Product.findByIdAndDelete(req.params.id);
+        res.status(200).json({ message: "Product deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ message: "Server Error", err });
+    }
+};

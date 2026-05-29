@@ -14,7 +14,7 @@ function PaymentErorr() {
         </div>
 
         <h1 className="text-4xl md:text-5xl font-extrabold text-red-600 mb-4">
-          Payment Failed ❌
+          Payment Failed
         </h1>
 
         <p className="text-lg md:text-xl text-gray-700 mb-6">

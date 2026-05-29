@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./context/CartContext";
 import { useWishlist } from "./context/WishlistContext";
 import { useEffect, useRef, useState } from "react";
+import { getProductsAPI } from "../../../../services/AllAPI";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -291,10 +292,10 @@ export default function ShoppingHome() {
       {/* FEATURED CATEGORIES */}
       <section className="max-w-7xl mx-auto px-6 py-20">
         <div ref={categoriesTitleRef} className="flex justify-between items-center mb-10 opacity-0">
-          <h2 className="text-2xl">
-            {searchQuery.trim() ? `Results for "${searchQuery}"` : "Featured Categories"}
+          <h2 className="text-2xl font-light tracking-tight text-gray-900">
+            {searchQuery.trim() ? `Results for "${searchQuery}"` : "Featured Collections"}
           </h2>
-          <Link to="/category/men" className="text-sm underline cursor-pointer">Explore All</Link>
+          <Link to="/category/men" className="text-xs uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 hover:border-gray-500 transition-colors">Explore All</Link>
         </div>
 
         {filteredCategories.length > 0 ? (
@@ -305,21 +306,17 @@ export default function ShoppingHome() {
                   ref={(el) => (categoryCardsRef.current[index] = el)}
                   className="relative group overflow-hidden cursor-pointer opacity-0"
                 >
-                  <button
-                    type="button"
-                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToWishlist(c); }}
-                    className="absolute top-2 right-2 z-10 bg-white p-2 rounded-full shadow hover:scale-110 transition-transform"
-                  >
-                    <Heart size={16} />
-                  </button>
-                  <div className="overflow-hidden h-[420px]">
+                  <div className="overflow-hidden h-[500px]">
                     <img
                       src={c.img}
-                      className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
                     />
                   </div>
-                  <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <p className="absolute bottom-6 left-6 text-white text-lg drop-shadow-lg">{c.title}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className="absolute bottom-10 left-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <p className="text-white text-3xl font-light tracking-tight">{c.title}</p>
+                    <p className="text-white/70 text-xs uppercase tracking-widest mt-2">Shop Collection</p>
+                  </div>
                 </div>
               </Link>
             ))}
@@ -334,6 +331,9 @@ export default function ShoppingHome() {
           </div>
         )}
       </section>
+
+      {/* DYNAMIC TRENDING PRODUCTS */}
+
 
       {/* FOOTER */}
       <footer ref={footerRef} className="bg-white text-gray-800 border-t mt-20 opacity-0">
