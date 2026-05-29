@@ -362,3 +362,45 @@ export const deleteNewArrivalAPI = async (id, reqHeader) => {
         reqHeader
     );
 };
+
+
+// Admin manage apttitde test
+/* ======================================================
+   APTITUDE QUESTIONS
+====================================================== */
+
+export const getAptitudeQuestionsAPI = async (category = "") => {
+    return await commanAPI(
+        "GET",
+        `${serverURL}/api/aptitude${category ? `?category=${category}` : ""}`,
+        {},
+        {}
+    );
+};
+
+export const addAptitudeQuestionAPI = async (data) => {
+    return await commanAPI(
+        "POST",
+        `${serverURL}/api/aptitude`,
+        data,
+        {}
+    );
+};
+
+export const updateAptitudeQuestionAPI = async (id, data) => {
+    return await commanAPI(
+        "PUT",
+        `${serverURL}/api/aptitude/${id}`,
+        data,
+        {}
+    );
+};
+
+export const deleteAptitudeQuestionAPI = async (id) => {
+    return await commanAPI(
+        "DELETE",
+        `${serverURL}/api/aptitude/${id}`,
+        {},
+        {}
+    );
+};

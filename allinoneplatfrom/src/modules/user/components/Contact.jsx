@@ -12,7 +12,6 @@ import {
     Twitter
 } from "lucide-react";
 
-// --- Components ---
 
 const MagneticButton = ({ children, onClick, className, type = "button" }) => {
     const x = useMotionValue(0);

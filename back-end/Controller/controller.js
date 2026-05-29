@@ -14,6 +14,11 @@ exports.userRegister = async (req, res) => {
     const { username, email, password } = req.body;
     const profile = req.file ? req.file.filename : "";
 
+    const validatePassword = (pwd) => /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(pwd);
+    if (!validatePassword(password)) {
+        return res.status(400).json("Password must contain at least 6 characters, one uppercase letter, one number, and one special character.");
+    }
+
     try {
         const existingUser = await User.findOne({ email });
 
@@ -118,7 +123,10 @@ exports.companyRegister = async (req, res) => {
 
     const { companyName, email, password } = req.body;
 
-
+    const validatePassword = (pwd) => /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(pwd);
+    if (!validatePassword(password)) {
+        return res.status(400).json("Password must contain at least 6 characters, one uppercase letter, one number, and one special character.");
+    }
     try {
         const existingCompany = await Company.findOne({ email });
 

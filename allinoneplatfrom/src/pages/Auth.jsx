@@ -4,11 +4,11 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { loginUserAPI, registerUserAPI, googleLoginUserAPI } from "../services/AllAPI";
 import { successToast, errorToast } from "../toastHelper";
-import { Camera, User as UserIcon } from "lucide-react";
+import { Camera, User as UserIcon, Eye, EyeOff } from "lucide-react";
 
 export default function Auth() {
     const navigate = useNavigate();
-    const [token, setToken] = useState(null);
+
     const [isLogin, setIsLogin] = useState(true);
     const [loading, setLoading] = useState(false);
     const [userData, setUserData] = useState({ 
@@ -18,6 +18,7 @@ export default function Auth() {
         profile: "" 
     });
     const [preview, setPreview] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     const HandleFileUpload = (e) => {
         const image = e.target.files[0];
@@ -29,10 +30,26 @@ export default function Auth() {
         });
     };
 
+    const validateEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+
+    const validatePasswordStrong = (password) => {
+        return /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(password);
+    };
+
     const handleRegister = async () => {
         if (!userData.username || !userData.email || !userData.password) { 
             errorToast("Please fill all fields"); 
             return; 
+        }
+        if (!validateEmail(userData.email)) {
+            errorToast("Please enter a valid email address");
+            return;
+        }
+        if (!validatePasswordStrong(userData.password)) {
+            errorToast("Password must contain at least 6 characters, one capital letter, one number, and one special character.");
+            return;
         }
 
         const reqBody = new FormData();
@@ -65,6 +82,11 @@ export default function Auth() {
             errorToast("Please fill all fields"); 
             return; 
         }
+        if (!validateEmail(email)) {
+            errorToast("Please enter a valid email address");
+            return;
+        }
+        
         try {
             setLoading(true);
             const response = await loginUserAPI({ email, password });
@@ -77,7 +99,7 @@ export default function Auth() {
                     navigate("/home"); 
                 }
             }
-        } catch (error) { 
+        } catch { 
             errorToast("Login failed. Please check your credentials.");
         } finally {
             setLoading(false);
@@ -103,14 +125,14 @@ export default function Auth() {
                 successToast("Successfully logged in with Google");
                 navigate("/home");
             }
-        } catch (err) { 
+        } catch { 
             errorToast("Google login failed"); 
         }
     };
 
     useEffect(() => {
         const savedToken = localStorage.getItem("userToken");
-        if (savedToken) setToken(savedToken);
+        // token is not needed in state here
     }, []);
 
     return (
@@ -594,9 +616,21 @@ export default function Auth() {
 
                             <div className="field-group">
                                 <label className="field-label">Password</label>
-                                <input type="password" placeholder="Enter your password" className="field-input"
-                                    value={userData.password}
-                                    onChange={(e) => setUserData({ ...userData, password: e.target.value })} />
+                                <div style={{ position: "relative" }}>
+                                    <input type={showPassword ? "text" : "password"} placeholder="Enter your password" className="field-input"
+                                        value={userData.password}
+                                        onChange={(e) => setUserData({ ...userData, password: e.target.value })} 
+                                        style={{ paddingRight: "40px" }} />
+                                    <button 
+                                        type="button" 
+                                        onClick={() => setShowPassword(!showPassword)} 
+                                        style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#999", display: "flex", alignItems: "center" }}>
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
+                                <p style={{ fontSize: "0.65rem", color: "#888", marginTop: "4px" }}>
+                                    * Must contain at least 6 characters, 1 uppercase, 1 number, and 1 special character.
+                                </p>
                             </div>
 
                             {isLogin ? (

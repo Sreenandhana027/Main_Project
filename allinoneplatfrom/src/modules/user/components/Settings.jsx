@@ -52,7 +52,7 @@ function Settings() {
       const result = await UpdateUserAPI(reqBody, reqHeader);
 
       if (result.status === 200) {
-
+        toast.success("Profile updated successfully");
       } else {
         toast.error("Something went wrong");
       }

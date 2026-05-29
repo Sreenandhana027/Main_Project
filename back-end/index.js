@@ -2,7 +2,6 @@
 require('dotenv').config()
 // ** express
 const express = require('express')
-const mongoose = require("mongoose");
 // * import cors
 const cors = require('cors')
 

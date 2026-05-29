@@ -6,7 +6,7 @@ const Company = require("../models/companymodel")
 
 // * add user details in the company form
 exports.applyJob = async (req, res) => {
-  if (req.user.role.toLowerCase().trim() !== "app  users") {
+  if (req.user.role.toLowerCase().trim() !== "user") {
     return res.status(403).json({
       message: "Only users can apply for jobs"
     });

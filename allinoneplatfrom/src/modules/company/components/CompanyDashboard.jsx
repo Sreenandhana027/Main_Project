@@ -259,7 +259,7 @@ export default function CompanyDashboard() {
 
                 <div className="flex items-center gap-2 text-sm text-gray-500">
                   <Users size={16} className="text-gray-500" />
-                  +{Math.floor(Math.random() * 20) + 1} applicants
+                  +{(job.title?.length % 20) + 1 || 12} applicants
                 </div>
 
                 <button className="mt-5 text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1.5 text-sm transition">

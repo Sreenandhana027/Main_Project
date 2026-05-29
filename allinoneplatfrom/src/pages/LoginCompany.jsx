@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { companyLoginAPI, companyRegisterAPI } from "../services/AllAPI";
-import { successToast } from "../toastHelper";
+import { successToast, errorToast } from "../toastHelper";
+import { Eye, EyeOff } from "lucide-react";
 
 
 export default function LoginCompany() {
   const navigate = useNavigate();
-  const [token, setToken] = useState(null);
+
 
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [userData, setUserData] = useState({
     companyName: "",
@@ -18,10 +20,26 @@ export default function LoginCompany() {
     password: ""
   });
 
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const validatePasswordStrong = (password) => {
+    return /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(password);
+  };
+
   // REGISTER
   const handleRegister = async () => {
     if (!userData.companyName || !userData.email || !userData.password) {
-      alert("Please fill all fields");
+      errorToast("Please fill all fields");
+      return;
+    }
+    if (!validateEmail(userData.email)) {
+      errorToast("Please enter a valid email address");
+      return;
+    }
+    if (!validatePasswordStrong(userData.password)) {
+      errorToast("Password must contain at least 6 characters, one capital letter, one number, and one special character.");
       return;
     }
 
@@ -51,7 +69,11 @@ export default function LoginCompany() {
     const { email, password } = userData;
 
     if (email === "" || password === "") {
-      alert("Please fill all fields");
+      errorToast("Please fill all fields");
+      return;
+    }
+    if (!validateEmail(email)) {
+      errorToast("Please enter a valid email address");
       return;
     }
 
@@ -63,7 +85,7 @@ export default function LoginCompany() {
 
         if (response.data.existingCompany.role === "admin") {
           navigate("/adminpre");
-        } else if (response.data.existingCompany.role === "App  Users") {
+        } else if (response.data.existingCompany.role === "user") {
           navigate("/home");
         } else {
           navigate("/companyDash");
@@ -78,9 +100,7 @@ export default function LoginCompany() {
 
   useEffect(() => {
     const savedToken = localStorage.getItem("companyToken");
-    if (savedToken) {
-      setToken(savedToken);
-    }
+    // token state removed
   }, []);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -125,14 +145,26 @@ export default function LoginCompany() {
               }
             />
 
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full border px-4 py-3 rounded-lg"
-              onChange={(e) =>
-                setUserData({ ...userData, password: e.target.value })
-              }
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className="w-full border px-4 py-3 rounded-lg pr-12"
+                onChange={(e) =>
+                  setUserData({ ...userData, password: e.target.value })
+                }
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 flex items-center justify-center"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              * Must contain at least 6 characters, 1 uppercase, 1 number, and 1 special character.
+            </p>
 
             {isLogin ? (
               <button

@@ -8,6 +8,7 @@ const videoController = require("../Controller/VideoController");
 const jobController = require("../Controller/jobController");
 const productController = require("../Controller/productController");
 const cartController = require("../Controller/cartController");
+const aptitudeController = require("../Controller/aptitudeController");
 
 // Middlewares
 const jwtmiddleware = require("../middleware/jwtmiddleware");
@@ -180,7 +181,11 @@ route.delete("/api/cart/:id", jwtmiddleware, cartController.removeCart);
 // PAYMENT
 route.post("/api/makePayment", jwtmiddleware, controller.buyProduct);
 
-
+// Admin manage apttitude test
+route.get("/api/aptitude", aptitudeController.getQuestions);
+route.post("/api/aptitude", aptitudeController.addQuestion);
+route.put("/api/aptitude/:id", aptitudeController.updateQuestion);
+route.delete("/api/aptitude/:id", aptitudeController.deleteQuestion);
 
 
 // NEW ARRIVALS

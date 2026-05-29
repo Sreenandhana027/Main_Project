@@ -57,6 +57,8 @@ import CandidateProfile from './modules/company/pages/CandidateProfile.jsx';
 import UserJobs from './modules/user/pages/UserJobs.jsx';
 import UserSettings from './modules/user/pages/UserSetting.jsx';
 import AboutPage from './modules/user/components/About.jsx';
+import ManageProducts from './modules/admin/pages/ManageProducts.jsx';
+import ManageAptitudeQuestions from './modules/admin/pages/ManageAptitudeQuestions.jsx';
 
 
 
@@ -134,6 +136,9 @@ function App() {
             <Route path='/companyDash' element={<CompanyDashboard />} />
             <Route path='/managevdo' element={<Managevideos />} />
             <Route path='/userslist' element={<AdminUserDahsBoard />} />
+            <Route path='/manageprdct' element={<ManageProducts />} />
+            <Route path='/manage-aptitude' element={<ManageAptitudeQuestions />} />
+
 
 
 
