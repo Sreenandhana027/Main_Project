@@ -52,7 +52,7 @@ const jwtMiddleware = (req, res, next) => {
         if (error.name === "TokenExpiredError") {
             return res.status(401).json({
                 success: false,
-                message: "Token expired. Please login again"
+                message: "Session expired. Please sign in again."
             });
         }
 

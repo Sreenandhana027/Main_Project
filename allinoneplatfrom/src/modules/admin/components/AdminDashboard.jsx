@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CiSettings } from "react-icons/ci";
 import { FaRegCalendarCheck } from "react-icons/fa";
@@ -6,6 +6,7 @@ import { HiOutlineShoppingCart } from "react-icons/hi";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { LiaVideoSolid } from "react-icons/lia";
 import { RiDashboardLine, RiShieldKeyholeLine, RiMenuFoldLine, RiMenuUnfoldLine, RiLogoutBoxRLine } from "react-icons/ri";
+import { GetUserAdminAPI } from "../../../services/AllAPI";
 
 const navLinks = [
   { icon: <RiDashboardLine size={18} />, label: "Dashboard", to: "/admin", active: true },
@@ -30,14 +31,39 @@ const activity = [
   { title: "Video uploaded", sub: "Intro to React — 42 min", time: "1h ago", dot: "#60a5fa" },
 ];
 
-const stats = [
-  { label: "Users", value: "2,481" },
-  { label: "Tests", value: "984" },
-  { label: "Sessions", value: "143" },
-];
-
 export default function AdminDashboard() {
   const [collapsed, setCollapsed] = useState(false);
+  const [userCount, setUserCount] = useState(null);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+
+  useEffect(() => {
+    const fetchUserCount = async () => {
+      try {
+        const storedToken = localStorage.getItem("userToken");
+        if (!storedToken) return;
+        const reqHeader = { Authorization: `Bearer ${storedToken}` };
+        const result = await GetUserAdminAPI(reqHeader);
+        const users = result.data || [];
+        setUserCount(users.length);
+      } catch (error) {
+        console.log("Error fetching user count:", error);
+        setUserCount("—");
+      } finally {
+        setLoadingUsers(false);
+      }
+    };
+
+    fetchUserCount();
+  }, []);
+
+  const stats = [
+    {
+      label: "Users",
+      value: loadingUsers ? "..." : userCount !== null ? userCount.toLocaleString() : "—",
+    },
+    { label: "Tests", value: "984" },
+    { label: "Sessions", value: "5" },
+  ];
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#0f0f11", color: "#e8e8e8", fontFamily: "'Inter', 'DM Sans', sans-serif" }}>
@@ -129,7 +155,13 @@ export default function AdminDashboard() {
               borderRadius: 14, padding: "18px 20px",
             }}>
               <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginBottom: 8 }}>{s.label}</p>
-              <p style={{ fontSize: 24, fontWeight: 700, color: "#fff" }}>{s.value}</p>
+              <p style={{
+                fontSize: 24, fontWeight: 700,
+                color: loadingUsers && s.label === "Users" ? "rgba(255,255,255,0.3)" : "#fff",
+                transition: "color 0.3s",
+              }}>
+                {s.value}
+              </p>
             </div>
           ))}
         </div>

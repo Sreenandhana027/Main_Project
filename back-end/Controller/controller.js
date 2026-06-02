@@ -55,7 +55,7 @@ exports.userLogin = async (req, res) => {
                 // token generation
                 const token = jwt.sign(
                     { userMail: existingUser.email, role: existingUser.role },
-                    process.env.jwtKey, { expiresIn: "1d" }
+                    process.env.jwtKey, {expiresIn: "365d" }
 
                 );
                 console.log("LOGIN KEY:", process.env.jwtKey);

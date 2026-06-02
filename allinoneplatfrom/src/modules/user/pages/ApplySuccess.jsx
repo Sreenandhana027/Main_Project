@@ -5,12 +5,12 @@ export default function ApplySuccess() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 via-white to-gray-50 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 md:py-12">
 
       <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden transform transition-all duration-500 hover:shadow-3xl">
 
         {/* Success Header / Visual */}
-        <div className="relative bg-gradient-to-br from-teal-50 to-cyan-50 px-8 py-12 md:py-16 text-center border-b border-teal-100">
+        <div className="relative bg-linear-to-br from-teal-50 to-cyan-50 px-8 py-12 md:py-16 text-center border-b border-teal-100">
           {/* Subtle animated checkmark background */}
           <div className="absolute inset-0 opacity-10 pointer-events-none">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(45,212,191,0.15),transparent_40%)]"></div>

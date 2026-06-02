@@ -11,10 +11,7 @@ import {
     Target
 } from "lucide-react";
 import { FaRegHeart } from "react-icons/fa";
-/**
- * Footer with Protected Navigation
- * Redirects unauthenticated users to /plslogn if non-public links are clicked.
- */
+
 const Footer = () => {
     const navigate = useNavigate();
     const currentYear = new Date().getFullYear();
