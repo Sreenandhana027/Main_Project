@@ -29,7 +29,7 @@ export default function ManageProducts() {
   const grouped = products.reduce((acc, p) => {
     const cat = p.category || "uncategorized";
     if (!acc[cat]) acc[cat] = [];
-    acc[cat].push(p);
+    acc[cat].unshift(p);
     return acc;
   }, {});
 
