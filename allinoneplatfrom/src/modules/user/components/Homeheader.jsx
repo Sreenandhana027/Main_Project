@@ -26,6 +26,15 @@ const Homeheader = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [userData, setUserData] = useState(null);
 
+    // ✅ FIX: Helper to handle both Google URLs and local uploaded files
+    const getProfileImage = (profile) => {
+        if (!profile) return null;
+        if (profile.startsWith("http://") || profile.startsWith("https://")) {
+            return profile; // Google photo URL — use directly
+        }
+        return `${serverURL}/uploads/${profile}`; // local uploaded file
+    };
+
     const fetchUserData = async () => {
         const token = localStorage.getItem("userToken");
         if (!token) return;
@@ -64,12 +73,12 @@ const Homeheader = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("userToken");
+        localStorage.removeItem("user");
         setIsLoggedIn(false);
         setUserData(null);
         navigate("/");
     };
 
-    // ✅ KEY FIX: Adaptive color tokens based on scroll/background
     const textColor = scrolled ? "text-slate-200" : "text-slate-800";
     const textMuted = scrolled ? "text-slate-400" : "text-slate-600";
     const hoverText = scrolled ? "hover:text-white" : "hover:text-slate-950";
@@ -116,8 +125,9 @@ const Homeheader = () => {
                         >
                             <div className="absolute -inset-1 bg-linear-to-tr from-indigo-500 to-purple-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
                             {userData?.profile ? (
+                                // ✅ FIX: Use getProfileImage() instead of hardcoded serverURL/uploads/
                                 <img
-                                    src={`${serverURL}/uploads/${userData.profile}`}
+                                    src={getProfileImage(userData.profile)}
                                     alt="User"
                                     className="relative w-10 h-10 rounded-full object-cover border-2 border-white/10 shadow-lg"
                                 />
@@ -131,9 +141,6 @@ const Homeheader = () => {
 
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-3 group focus:outline-none">
-                        {/* <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-110 group-hover:rotate-3 transition-all">
-                            <Sparkles className="w-6 h-6 text-white" />
-                        </div> */}
                         <span className={`text-2xl font-black tracking-tighter transition-colors duration-300 ${scrolled ? "text-white" : "text-slate-900"}`}>
                             Prep<span className="text-indigo-500">Vault</span>
                         </span>

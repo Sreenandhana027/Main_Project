@@ -7,7 +7,7 @@ const services = [
   {
     title: "Resume Builder",
     desc: "Design ATS-friendly resumes with smart templates, skill analysis, and instant preview.",
-    route: "https://resumeapp-vn1i.vercel.app",
+    route: "https://resume-builder-fronend.onrender.com",
     img: "https://images.pexels.com/photos/3760072/pexels-photo-3760072.jpeg",
     tag: "AI-Powered",
     accent: "#3B82F6",        // Blue

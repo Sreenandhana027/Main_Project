@@ -18,14 +18,20 @@ function UserSettings() {
         profile: ""
     });
 
+    // ✅ FIX: Helper to handle both Google URLs and local uploaded files
+    const getProfileImage = (profile) => {
+        if (!profile) return "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+        if (profile.startsWith("http://") || profile.startsWith("https://")) {
+            return profile; // Google photo URL — use directly
+        }
+        return `${serverURL}/uploads/${profile}`; // local uploaded file
+    };
+
     const HandleFileUpload = (e) => {
         const image = e.target.files[0];
         if (!image) return;
         setPreview(URL.createObjectURL(image));
-        setUserDetails({
-            ...userDetails,
-            profile: image
-        });
+        setUserDetails({ ...userDetails, profile: image });
     };
 
     const handleUpdate = async () => {
@@ -68,7 +74,8 @@ function UserSettings() {
             if (result.status === 200) {
                 setUserDetails(result.data);
                 if (result.data.profile) {
-                    setPreview(`${serverURL}/uploads/${result.data.profile}`);
+                    // ✅ FIX: Use getProfileImage() — handles both Google URL and local file
+                    setPreview(getProfileImage(result.data.profile));
                 }
             }
         } catch (err) {
@@ -77,8 +84,8 @@ function UserSettings() {
     };
 
     useEffect(() => {
-        const savedToken = localStorage.getItem("userToken");
-        setToken(savedToken);
+        // ✅ FIX: Read userToken (not adminToken) for user portal
+        setToken(localStorage.getItem("userToken"));
     }, []);
 
     useEffect(() => {
@@ -109,7 +116,7 @@ function UserSettings() {
                         <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-gray-900 to-gray-600">
                             Account Settings
                         </h2>
-                        <div className="w-11 h-11" /> {/* Spacer */}
+                        <div className="w-11 h-11" />
                     </div>
 
                     <div className="px-8 pb-10">
@@ -131,9 +138,8 @@ function UserSettings() {
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
                                                 exit={{ opacity: 0 }}
-                                                src={
-                                                    preview || (userDetails.profile ? `${serverURL}/uploads/${userDetails.profile}` : "https://cdn-icons-png.flaticon.com/512/149/149071.png")
-                                                }
+                                                // ✅ FIX: Use getProfileImage() — handles Google URL and local file
+                                                src={preview || getProfileImage(userDetails.profile)}
                                                 alt="profile"
                                                 className="w-full h-full object-cover"
                                             />
@@ -280,4 +286,3 @@ function UserSettings() {
 }
 
 export default UserSettings;
-

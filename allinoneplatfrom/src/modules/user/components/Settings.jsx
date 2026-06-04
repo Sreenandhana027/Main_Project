@@ -82,9 +82,9 @@ function Settings() {
     }
   };
 
-  useEffect(() => {
-    setToken(localStorage.getItem("userToken"));
-  }, []);
+useEffect(() => {
+    setToken(localStorage.getItem("adminToken")); // ← reads admin JWT ✅
+}, []);
 
   useEffect(() => {
     if (token) getAdmin();

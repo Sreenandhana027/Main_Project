@@ -41,36 +41,56 @@ export default function Auth() {
         finally { setLoading(false); }
     };
 
-    const handleLogin = async () => {
-        const { email, password } = userData;
-        if (!email || !password) { errorToast("Please fill all fields"); return; }
-        if (!validateEmail(email)) { errorToast("Please enter a valid email address"); return; }
-        try {
-            setLoading(true);
-            const response = await loginUserAPI({ email, password });
-            if (response.status === 200) {
-                localStorage.setItem("userToken", response.data.token);
-                successToast("Login successful");
-                if (response.data.existingUser.role === "admin") navigate("/adminpre");
-                else navigate("/home");
-            }
-        } catch { errorToast("Login failed. Please check your credentials."); }
-        finally { setLoading(false); }
-    };
+const handleLogin = async () => {
+    const { email, password } = userData;
+    if (!email || !password) { errorToast("Please fill all fields"); return; }
+    if (!validateEmail(email)) { errorToast("Please enter a valid email address"); return; }
+    try {
+        setLoading(true);
+        const response = await loginUserAPI({ email, password });
+      // handleLogin
+if (response.status === 200) {
+    localStorage.removeItem("user");
+    localStorage.removeItem("userToken");
+    localStorage.removeItem("adminToken"); // ← clear old admin token too
 
-    const handleGoogleLogin = async (credentialResponse) => {
-        if (!credentialResponse?.credential) { errorToast("Google credential missing"); return; }
-        const decoded = jwtDecode(credentialResponse.credential);
-        try {
-            const res = await googleLoginUserAPI({ username: decoded.name, email: decoded.email, password: "googlepsswrd", profile: decoded.picture });
-            if (res.status === 200) {
-                localStorage.setItem("userToken", res.data.token);
-                localStorage.setItem("user", JSON.stringify(res.data.existingUser));
-                successToast("Logged in with Google");
-                navigate("/home");
-            }
-        } catch { errorToast("Google login failed"); }
-    };
+    const isAdmin = response.data.existingUser.role === "admin";
+
+    // Save to different keys based on role
+    if (isAdmin) {
+        localStorage.setItem("adminToken", response.data.token);
+        localStorage.setItem("admin", JSON.stringify(response.data.existingUser));
+        navigate("/adminpre");
+    } else {
+        localStorage.setItem("userToken", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.existingUser));
+        navigate("/home");
+    }
+
+    successToast("Login successful");
+}
+    } catch { errorToast("Login failed. Please check your credentials."); }
+    finally { setLoading(false); }
+};
+
+ const handleGoogleLogin = async (credentialResponse) => {
+    if (!credentialResponse?.credential) { errorToast("Google credential missing"); return; }
+    const decoded = jwtDecode(credentialResponse.credential);
+    try {
+        const res = await googleLoginUserAPI({ username: decoded.name, email: decoded.email, password: "googlepsswrd", profile: decoded.picture });
+        if (res.status === 200) {
+
+            // ✅ ADD THESE 4 LINES HERE TOO
+            localStorage.removeItem("user");
+            localStorage.removeItem("userToken");
+            localStorage.setItem("userToken", res.data.token);
+            localStorage.setItem("user", JSON.stringify(res.data.existingUser));
+
+            successToast("Logged in with Google");
+            navigate("/home");
+        }
+    } catch { errorToast("Google login failed"); }
+};
 
     useEffect(() => {
         setUserData({ username: "", email: "", password: "", profile: "" });

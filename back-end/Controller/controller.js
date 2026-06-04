@@ -90,30 +90,48 @@ exports.userLogin = async (req, res) => {
 
 exports.GoogleLogin = async (req, res) => {
     console.log("inside google login");
-    const { email, profile, password, username } = req.body
+    const { email, profile, password, username } = req.body;
 
     try {
-        const existingUser = await User.findOne({ email })
+        const existingUser = await User.findOne({ email });
+
         if (existingUser) {
-            // token generation
-            const token = jwt.sign({ userMail: existingUser.email, role: existingUser.role }, process.env.jwtKey)
-            console.log(token);
-            res.status(200).json({ message: "Login succefully", existingUser, token })
-        }
-        else {
-            const newUser = new User({ email, profile, password, username })
-            await newUser.save()
-            // token generation
-            const token = jwt.sign({ userMail: newUser.email, role: newUser.role }, process.env.jwtKey)
-            console.log(token);
-            res.status(200).json({ existingUser: newUser, token })
+
+            // ✅ SIMPLE RULE: update profile only if current profile is NOT a local uploaded file
+            // Local files are saved as plain filenames like "abc123.jpg"
+            // Google URLs start with "https://"
+            // So: update if profile is empty OR is already a Google URL OR is an old local file
+            if (profile) {
+                existingUser.profile = profile; // always update with latest Google photo
+                await existingUser.save();
+            }
+
+            const token = jwt.sign(
+                { userMail: existingUser.email, role: existingUser.role },
+                process.env.jwtKey,
+                { expiresIn: "365d" }
+            );
+
+            res.status(200).json({ message: "Login succefully", existingUser, token });
+
+        } else {
+            // New user — save Google profile URL directly
+            const newUser = new User({ email, profile, password, username });
+            await newUser.save();
+
+            const token = jwt.sign(
+                { userMail: newUser.email, role: newUser.role },
+                process.env.jwtKey,
+                { expiresIn: "365d" }
+            );
+
+            res.status(200).json({ existingUser: newUser, token });
         }
 
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json(error);
     }
-
-}
+};
 
 
 // * for company module
@@ -254,9 +272,6 @@ exports.updateUserProfile = async (req, res) => {
 
 // *for company register
 
-
-
-
 // *admin block
 
 // **postman correct
@@ -319,8 +334,6 @@ exports.getAdmin = async (req, res) => {
 };
 
 // ** get users
-
-
 
 // *payment
 exports.buyProduct = async (req, res) => {
