@@ -365,14 +365,14 @@ exports.buyProduct = async (req, res) => {
                     quantity: 1,
                 },
             ],
-            success_url: "http://localhost:5173/payment-success",
-            cancel_url: "http://localhost:5173/payment-cancel",
+            // ✅ Fixed — use environment variable + HashRouter format
+            success_url: `${process.env.CLIENT_URL}/#/payment-success`,
+            cancel_url: `${process.env.CLIENT_URL}/#/payment-cancel`,
         });
 
-        // Return the full URL instead of sessionId
         res.status(200).json({
             success: true,
-            checkoutUrl: session.url,  // <--- Stripe now provides session.url
+            checkoutUrl: session.url,
         });
 
     } catch (err) {
