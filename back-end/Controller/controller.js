@@ -5,88 +5,97 @@ const path = require("path");
 // *import jwt token
 const jwt = require('jsonwebtoken')
 const stripe = require('stripe')(process.env.paymentKey);
+const bcrypt = require("bcrypt");
 // logic for register
 // ***postman correct
 exports.userRegister = async (req, res) => {
     console.log("Inside register function");
 
-    // *destructure
     const { username, email, password } = req.body;
     const profile = req.file ? req.file.filename : "";
 
-    const validatePassword = (pwd) => /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(pwd);
+    // Password validation
+    const validatePassword = (pwd) =>
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(pwd);
+
     if (!validatePassword(password)) {
-        return res.status(400).json("Password must contain at least 6 characters, one uppercase letter, one number, and one special character.");
+        return res.status(400).json({
+            message: "Password must contain at least 6 characters, one uppercase letter, one number, and one special character."
+        });
     }
 
     try {
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
-            res.status(401).json("Already User Existed");
-        } else {
-            const newUser = new User({ username, email, password, profile });
-            await newUser.save();
-            res.status(200).json({ message: "Register successfully", newUser });
+            return res.status(409).json({ message: "User already exists" });
         }
+
+        // Hash password before saving
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = new User({
+            username,
+            email,
+            password: hashedPassword,  // ✅ save hashed password
+            profile
+        });
+
+        await newUser.save();
+
+        res.status(200).json({ message: "Register successfully", newUser });
+
     } catch (error) {
         console.error("Register error:", error);
-        res.status(500).json(error);
+        res.status(500).json({ message: "Internal server error" });
     }
 };
 
 
-// login
-// **postman correct
+// ======================================================
+// USER LOGIN
+// ======================================================
 exports.userLogin = async (req, res) => {
-    console.log("inside login function");
+    console.log("Inside login function");
 
-    const { email, password } = req.body
+    const { email, password } = req.body;
     console.log("BODY RECEIVED:", req.body);
 
     try {
-        const existingUser = await User.findOne({ email })
-        console.log("existing User :", existingUser);
+        const existingUser = await User.findOne({ email });
+        console.log("Existing user:", existingUser);
 
-
-
-        if (existingUser) {
-            if (password == existingUser.password) {
-                // token generation
-                const token = jwt.sign(
-                    { userMail: existingUser.email, role: existingUser.role },
-                    process.env.jwtKey, {expiresIn: "365d" }
-
-                );
-                console.log("LOGIN KEY:", process.env.jwtKey);
-                console.log(token);
-
-                res.status(200).json(
-                    {
-                        message: "Login succefully",
-                        existingUser,
-                        token
-                    });
-
-            }
-            else {
-                res.status(401).json({ message: "Password is incorrect" });
-
-            }
+        if (!existingUser) {
+            return res.status(401).json({ message: "User not found" });
         }
-        else {
-            res.status(401).json({ message: "User not found" });
 
+        // ✅ Compare hashed password
+        const isMatch = await bcrypt.compare(password, existingUser.password);
+
+        if (!isMatch) {
+            return res.status(401).json({ message: "Password is incorrect" });
         }
+
+        // Generate token
+        const token = jwt.sign(
+            { userMail: existingUser.email, role: existingUser.role },
+            process.env.jwtKey,
+            { expiresIn: "365d" }
+        );
+
+        console.log("Token generated:", token);
+
+        return res.status(200).json({
+            message: "Login successfully",
+            existingUser,
+            token
+        });
 
     } catch (error) {
         console.error("LOGIN ERROR:", error);
-        alert(err?.res?.data?.message || "Login failed");
-
+        res.status(500).json({ message: "Internal server error" });
     }
-
-
-}
+};
 
 exports.GoogleLogin = async (req, res) => {
     console.log("inside google login");

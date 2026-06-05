@@ -2,6 +2,10 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 
 const commanAPI = async (httpMethod, url, reqBody, reqHeader = {}) => {
+    const token = localStorage.getItem("token"); // match the key you use after login
+    if (token) {
+        reqHeader["Authorization"] = `Bearer ${token}`;
+    }
     try {
         let headers = { ...reqHeader };
 
