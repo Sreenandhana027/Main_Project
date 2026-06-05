@@ -1,1 +1,2 @@
-export const serverURL = "http://localhost:3000";
+// ✅ serverURL.js
+export const serverURL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
