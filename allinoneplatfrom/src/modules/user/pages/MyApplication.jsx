@@ -6,8 +6,10 @@ import {
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { getMyApplicationsAPI } from "../../../services/AllAPI";
 import { serverURL } from "../../../services/serverURL";
+import { useNavigate } from "react-router-dom";
 
 export default function MyApplication() {
+    const navigate = useNavigate();
     const [applications, setApplications] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -31,13 +33,19 @@ export default function MyApplication() {
                 }
             } catch (err) {
                 console.error(err);
-                setError("Something went wrong while loading applications.");
+                if (err.response?.status === 401) {
+                    localStorage.removeItem("userToken");
+                    localStorage.removeItem("user");
+                    navigate("/auth");
+                } else {
+                    setError("Something went wrong while loading applications.");
+                }
             } finally {
                 setLoading(false);
             }
         };
         fetchApplications();
-    }, []);
+    }, [navigate]);
 
     const getStatusStyle = (status) => {
         switch (status?.toLowerCase()) {

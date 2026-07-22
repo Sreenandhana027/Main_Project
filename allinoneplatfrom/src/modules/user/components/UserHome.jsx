@@ -152,7 +152,7 @@ function UserHome() {
           <section className="mt-24 px-10 mb-20">
             <h2 className="text-3xl font-bold text-center mb-6">Why PrepVault?</h2>
 
-            <p className="text-center max-w-3xl mx-auto text-gray-700 text-lg leading-relaxed">
+            <div className="text-center max-w-3xl mx-auto text-gray-700 text-lg leading-relaxed">
               PrepVault brings together everything needed for a smooth hiring experience.
               Our platform delivers powerful tools for every user role:
               <br /><br />
@@ -177,7 +177,7 @@ function UserHome() {
               </div>
 
               <br />
-            </p>
+            </div>
           </section>
 
         </div>

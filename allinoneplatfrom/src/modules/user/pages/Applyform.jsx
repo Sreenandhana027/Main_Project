@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { AddUserAPI } from "../../../services/AllAPI";
 import { useParams } from "react-router-dom";
-import { successToast } from "../../../toastHelper";
+import { successToast, errorToast } from "../../../toastHelper";
 
 export default function ApplyForm() {
   const navigate = useNavigate();
@@ -40,12 +40,20 @@ export default function ApplyForm() {
     console.log("FILES:", resumes);
 
     if (!formData.name || !formData.usermail) {
-      alert("Name and Email are required");
+      errorToast("Name and Email are required");
       return;
     }
 
     if (resumes.length === 0) {
-      alert("Please upload your resume");
+      errorToast("Please upload your resume");
+      return;
+    }
+
+    // Frontend validation for file size (10MB limit)
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+    const oversizedFile = resumes.find(file => file.size > MAX_FILE_SIZE);
+    if (oversizedFile) {
+      errorToast(`File "${oversizedFile.name}" exceeds the 10MB limit.`);
       return;
     }
 
@@ -73,13 +81,18 @@ export default function ApplyForm() {
       };
       const response = await AddUserAPI(data, reqHeader);
 
-      successToast(response.data.message);
+      successToast(response.data.message || "Application submitted successfully");
       navigate("/apply/success");
     } catch (error) {
       console.error(error);
-      alert(
-        error.response?.data || "Something went wrong. Please try again."
-      );
+      const errMsg = error.response?.data?.message || error.response?.data || "Something went wrong. Please try again.";
+      errorToast(typeof errMsg === "object" ? JSON.stringify(errMsg) : errMsg);
+      
+      if (error.response?.status === 401) {
+        localStorage.removeItem("userToken");
+        localStorage.removeItem("user");
+        navigate("/auth");
+      }
     } finally {
       setLoading(false);
     }

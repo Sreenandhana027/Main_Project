@@ -80,6 +80,12 @@ function UserSettings() {
             }
         } catch (err) {
             console.error("Get user error:", err);
+            if (err?.response?.status === 401) {
+                localStorage.removeItem("userToken");
+                localStorage.removeItem("user");
+                setToken("");
+                navigate("/auth");
+            }
         }
     };
 

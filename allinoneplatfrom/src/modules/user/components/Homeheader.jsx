@@ -46,6 +46,13 @@ const Homeheader = () => {
             }
         } catch (err) {
             console.error("Error fetching user data:", err);
+            if (err?.response?.status === 401) {
+                // Token is invalid/expired - clear state
+                localStorage.removeItem("userToken");
+                localStorage.removeItem("user");
+                setIsLoggedIn(false);
+                setUserData(null);
+            }
         }
     };
 
