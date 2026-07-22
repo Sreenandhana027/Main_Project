@@ -2,10 +2,10 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 
 const commanAPI = async (httpMethod, url, reqBody, reqHeader = {}) => {
-    const token = localStorage.getItem("token"); // match the key you use after login
-    if (token) {
-        reqHeader["Authorization"] = `Bearer ${token}`;
-    }
+    // NOTE: Do NOT auto-inject a token here.
+    // Each caller passes its own correct token (userToken / companyToken / adminToken)
+    // in reqHeader. Auto-injecting from localStorage can override the correct token
+    // with a stale or wrong-role token, causing "Only users can apply" errors.
     try {
         let headers = { ...reqHeader };
 
