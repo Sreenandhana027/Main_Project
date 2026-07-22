@@ -78,7 +78,7 @@ exports.userLogin = async (req, res) => {
 
         // Generate token
         const token = jwt.sign(
-            { userMail: existingUser.email, role: existingUser.role },
+            { userMail: existingUser.email, role: existingUser.role || "user" },
             process.env.jwtKey,
             { expiresIn: "365d" }
         );
@@ -116,7 +116,7 @@ exports.GoogleLogin = async (req, res) => {
             }
 
             const token = jwt.sign(
-                { userMail: existingUser.email, role: existingUser.role },
+                { userMail: existingUser.email, role: existingUser.role || "user" },
                 process.env.jwtKey,
                 { expiresIn: "365d" }
             );
@@ -129,7 +129,7 @@ exports.GoogleLogin = async (req, res) => {
             await newUser.save();
 
             const token = jwt.sign(
-                { userMail: newUser.email, role: newUser.role },
+                { userMail: newUser.email, role: newUser.role || "user" },
                 process.env.jwtKey,
                 { expiresIn: "365d" }
             );
