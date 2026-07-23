@@ -98,46 +98,62 @@ function UserSettings() {
         if (token) getUser();
     }, [token]);
 
+    const inputClass =
+        "w-full bg-white border border-[#D9D3C7] text-[#1C2333] px-5 py-3.5 rounded-md outline-none focus:ring-1 focus:ring-[#8C6D3F] focus:border-[#8C6D3F] transition-colors placeholder:text-[#B0A88F]";
+
+    const labelClass =
+        "text-[11px] font-semibold tracking-[0.12em] uppercase text-[#6B6357] ml-0.5 flex items-center gap-2";
+
     return (
-        <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-indigo-50 via-slate-50 to-white flex justify-center items-center py-12 px-4 sm:px-6 lg:px-8 font-outfit">
+        <div className="min-h-screen bg-[#F7F4EE] flex justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
+            <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+                .font-display { font-family: 'Cormorant Garamond', serif; }
+                .font-body { font-family: 'Inter', sans-serif; }
+            `}</style>
+
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className="w-full max-w-2xl"
+                className="w-full max-w-2xl font-body"
             >
                 {/* Main Card */}
-                <div className="relative overflow-hidden backdrop-blur-xl bg-white/70 border border-white/40 shadow-[0_20px_50px_rgba(79,70,229,0.15)] rounded-[2.5rem]">
+                <div className="relative overflow-hidden bg-white border border-[#E9E4D8] shadow-[0_20px_50px_rgba(28,35,51,0.08)] rounded-2xl">
 
                     {/* Header Section */}
-                    <div className="px-8 pt-8 pb-4 flex items-center justify-between">
+                    <div className="px-8 sm:px-10 pt-8 pb-6 flex items-center justify-between border-b border-[#EFEAE0]">
                         <motion.button
-                            whileHover={{ scale: 1.1, x: -5 }}
-                            whileTap={{ scale: 0.9 }}
+                            whileHover={{ scale: 1.05, x: -3 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={() => navigate(-1)}
-                            className="p-3 bg-white border border-gray-100 rounded-2xl shadow-sm text-gray-600 hover:text-indigo-600 transition-colors"
+                            className="p-2.5 bg-white border border-[#E9E4D8] rounded-lg text-[#6B6357] hover:text-[#1C2333] hover:border-[#C9BFA9] transition-colors"
                         >
-                            <ArrowLeft size={20} />
+                            <ArrowLeft size={18} />
                         </motion.button>
-                        <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-gray-900 to-gray-600">
-                            Account Settings
-                        </h2>
+                        <div className="text-center">
+                            <p className="text-[10px] tracking-[0.2em] uppercase text-[#8C6D3F] font-semibold mb-1">
+                                Your Account
+                            </p>
+                            <h2 className="font-display text-2xl sm:text-3xl font-semibold text-[#1C2333]">
+                                Account Settings
+                            </h2>
+                        </div>
                         <div className="w-11 h-11" />
                     </div>
 
-                    <div className="px-8 pb-10">
+                    <div className="px-8 sm:px-10 pb-10">
                         {/* Profile Image Section */}
-                        <div className="flex flex-col items-center mb-10">
+                        <div className="flex flex-col items-center mb-10 mt-8">
                             <motion.div
                                 initial={{ scale: 0.9, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ delay: 0.2 }}
                                 className="relative group"
                             >
-                                <div className="absolute -inset-1 bg-linear-to-tr from-indigo-500 to-violet-500 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
                                 <label className="relative block cursor-pointer">
                                     <input type="file" hidden onChange={HandleFileUpload} accept="image/*" />
-                                    <div className="w-32 h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-gray-50 flex items-center justify-center">
+                                    <div className="w-32 h-32 rounded-full border-4 border-[#F7F4EE] shadow-md overflow-hidden bg-[#F2EFE7] flex items-center justify-center ring-1 ring-[#E9E4D8]">
                                         <AnimatePresence mode="wait">
                                             <motion.img
                                                 key={preview || userDetails.profile}
@@ -150,16 +166,16 @@ function UserSettings() {
                                                 className="w-full h-full object-cover"
                                             />
                                         </AnimatePresence>
-                                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-full">
-                                            <Camera className="text-white" size={24} />
+                                        <div className="absolute inset-0 bg-[#1C2333]/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-full">
+                                            <Camera className="text-white" size={22} />
                                         </div>
                                     </div>
                                     <motion.div
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        className="absolute bottom-1 right-1 bg-indigo-600 text-white p-2.5 rounded-full shadow-lg border-2 border-white"
+                                        whileHover={{ scale: 1.08 }}
+                                        whileTap={{ scale: 0.92 }}
+                                        className="absolute bottom-1 right-1 bg-[#8C6D3F] text-white p-2.5 rounded-full shadow-md border-2 border-[#F7F4EE]"
                                     >
-                                        <Camera size={16} />
+                                        <Camera size={14} />
                                     </motion.div>
                                 </label>
                             </motion.div>
@@ -168,14 +184,14 @@ function UserSettings() {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.3 }}
-                                className="mt-4 text-center"
+                                className="mt-5 text-center"
                             >
-                                <h3 className="text-xl font-bold text-gray-900">
+                                <h3 className="font-display text-2xl font-semibold text-[#1C2333]">
                                     {userDetails.username || "Set Your Name"}
                                 </h3>
-                                <p className="text-slate-500 flex items-center justify-center gap-1.5 text-sm mt-1">
-                                    <ShieldCheck size={14} className="text-indigo-500" />
-                                    Verified Account
+                                <p className="text-[#8A8272] flex items-center justify-center gap-1.5 text-xs mt-1.5 tracking-wide">
+                                    <ShieldCheck size={13} className="text-[#8C6D3F]" />
+                                    VERIFIED ACCOUNT
                                 </p>
                             </motion.div>
                         </div>
@@ -186,57 +202,51 @@ function UserSettings() {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.4 }}
-                                className="grid grid-cols-1 gap-6"
+                                className="grid grid-cols-1 gap-5"
                             >
                                 {/* Name Input */}
                                 <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-slate-700 ml-1 flex items-center gap-2">
-                                        <User size={14} className="text-indigo-500" />
+                                    <label className={labelClass}>
+                                        <User size={13} className="text-[#8C6D3F]" />
                                         Full Name
                                     </label>
-                                    <div className="relative group">
-                                        <input
-                                            type="text"
-                                            value={userDetails.username || ""}
-                                            onChange={(e) => setUserDetails({ ...userDetails, username: e.target.value })}
-                                            className="w-full bg-white/50 border border-slate-200 text-gray-900 px-5 py-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-300 placeholder:text-slate-400 group-hover:border-slate-300"
-                                            placeholder="Enter your full name"
-                                        />
-                                    </div>
+                                    <input
+                                        type="text"
+                                        value={userDetails.username || ""}
+                                        onChange={(e) => setUserDetails({ ...userDetails, username: e.target.value })}
+                                        className={inputClass}
+                                        placeholder="Enter your full name"
+                                    />
                                 </div>
 
                                 {/* Email Input */}
                                 <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-slate-700 ml-1 flex items-center gap-2">
-                                        <Mail size={14} className="text-indigo-500" />
+                                    <label className={labelClass}>
+                                        <Mail size={13} className="text-[#8C6D3F]" />
                                         Email Address
                                     </label>
-                                    <div className="relative group">
-                                        <input
-                                            type="email"
-                                            value={userDetails.email || ""}
-                                            onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
-                                            className="w-full bg-white/50 border border-slate-200 text-gray-900 px-5 py-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-300 placeholder:text-slate-400 group-hover:border-slate-300"
-                                            placeholder="your.email@example.com"
-                                        />
-                                    </div>
+                                    <input
+                                        type="email"
+                                        value={userDetails.email || ""}
+                                        onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
+                                        className={inputClass}
+                                        placeholder="your.email@example.com"
+                                    />
                                 </div>
 
                                 {/* Phone Input */}
                                 <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-slate-700 ml-1 flex items-center gap-2">
-                                        <Phone size={14} className="text-indigo-500" />
+                                    <label className={labelClass}>
+                                        <Phone size={13} className="text-[#8C6D3F]" />
                                         Phone Number
                                     </label>
-                                    <div className="relative group">
-                                        <input
-                                            type="text"
-                                            value={userDetails.phone || ""}
-                                            onChange={(e) => setUserDetails({ ...userDetails, phone: e.target.value })}
-                                            className="w-full bg-white/50 border border-slate-200 text-gray-900 px-5 py-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-300 placeholder:text-slate-400 group-hover:border-slate-300"
-                                            placeholder="+1 (555) 000-0000"
-                                        />
-                                    </div>
+                                    <input
+                                        type="text"
+                                        value={userDetails.phone || ""}
+                                        onChange={(e) => setUserDetails({ ...userDetails, phone: e.target.value })}
+                                        className={inputClass}
+                                        placeholder="+1 (555) 000-0000"
+                                    />
                                 </div>
                             </motion.div>
 
@@ -245,10 +255,10 @@ function UserSettings() {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.5 }}
-                                className="flex gap-4 p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 text-indigo-700 text-sm leading-relaxed"
+                                className="flex gap-3.5 p-4 rounded-lg bg-[#FBF8F1] border border-[#E9E4D8] text-[#6B6357] text-sm leading-relaxed"
                             >
-                                <div className="shrink-0 mt-0.5">
-                                    <ShieldCheck size={18} />
+                                <div className="shrink-0 mt-0.5 text-[#8C6D3F]">
+                                    <ShieldCheck size={17} />
                                 </div>
                                 <p>
                                     Keeping your information up to date helps us provide a better experience.
@@ -261,26 +271,23 @@ function UserSettings() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.6 }}
-                                className="pt-4"
+                                className="pt-3"
                             >
                                 <motion.button
-                                    whileHover={{ scale: 1.02, translateY: -2 }}
+                                    whileHover={{ scale: 1.01 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={handleUpdate}
                                     disabled={isLoading}
-                                    className="w-full relative group cursor-pointer"
+                                    className="w-full bg-[#1C2333] hover:bg-[#151B29] text-white py-4 rounded-md text-sm font-semibold tracking-[0.08em] uppercase shadow-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-70"
                                 >
-                                    <div className="absolute -inset-0.5 bg-linear-to-r from-indigo-600 to-violet-600 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-300"></div>
-                                    <div className="relative bg-linear-to-r from-indigo-600 to-violet-600 text-white py-4 rounded-2xl text-lg font-bold shadow-xl flex items-center justify-center gap-2 hover:from-indigo-500 hover:to-violet-500 transition-all">
-                                        {isLoading ? (
-                                            <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                        ) : (
-                                            <>
-                                                <CheckCircle2 size={20} />
-                                                Save Profile Changes
-                                            </>
-                                        )}
-                                    </div>
+                                    {isLoading ? (
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                    ) : (
+                                        <>
+                                            <CheckCircle2 size={17} />
+                                            Save Profile Changes
+                                        </>
+                                    )}
                                 </motion.button>
                             </motion.div>
                         </div>

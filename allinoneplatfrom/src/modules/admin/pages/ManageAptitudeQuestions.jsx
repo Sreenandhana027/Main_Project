@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import {
   getAptitudeQuestionsAPI,
   addAptitudeQuestionAPI,
@@ -51,6 +52,7 @@ export default function ManageAptitudeQuestions() {
       if (res.status === 200) setQuestions(res.data);
     } catch (err) {
       console.error(err);
+      toast.error("Failed to load questions.");
     } finally {
       setLoading(false);
     }
@@ -61,7 +63,10 @@ export default function ManageAptitudeQuestions() {
   useEffect(() => {
     getAptitudeQuestionsAPI("").then(res => {
       if (res.status === 200) setAllQuestions(res.data);
-    }).catch(console.error);
+    }).catch(err => {
+      console.error(err);
+      toast.error("Failed to load question counts.");
+    });
   }, [questions]);
 
   const getCount = (cat) =>
@@ -97,17 +102,22 @@ export default function ManageAptitudeQuestions() {
 
   const handleSave = async () => {
     const { question, options, answer, category } = form;
-    if (!question.trim()) { alert("Please enter a question."); return; }
-    if (options.some(o => !o.trim())) { alert("Please fill in all 4 options."); return; }
-    if (!answer) { alert("Please select the correct answer."); return; }
-    if (!options.includes(answer)) { alert("Correct answer must match one of the options."); return; }
+    if (!question.trim()) { toast.error("Please enter a question."); return; }
+    if (options.some(o => !o.trim())) { toast.error("Please fill in all 4 options."); return; }
+    if (!answer) { toast.error("Please select the correct answer."); return; }
+    if (!options.includes(answer)) { toast.error("Correct answer must match one of the options."); return; }
     try {
-      if (isEditing) await updateAptitudeQuestionAPI(currentId, form);
-      else await addAptitudeQuestionAPI(form);
+      if (isEditing) {
+        await updateAptitudeQuestionAPI(currentId, form);
+        toast.success("Question updated successfully.");
+      } else {
+        await addAptitudeQuestionAPI(form);
+        toast.success("Question added successfully.");
+      }
       handleCloseModal();
       loadQuestions();
     } catch (err) {
-      alert("Failed to save question.");
+      toast.error("Failed to save question.");
     }
   };
 
@@ -115,9 +125,10 @@ export default function ManageAptitudeQuestions() {
     if (!window.confirm("Delete this question?")) return;
     try {
       await deleteAptitudeQuestionAPI(id);
+      toast.success("Question deleted.");
       loadQuestions();
     } catch (err) {
-      alert("Failed to delete.");
+      toast.error("Failed to delete question.");
     }
   };
 

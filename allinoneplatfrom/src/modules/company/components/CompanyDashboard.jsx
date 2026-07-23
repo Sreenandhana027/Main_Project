@@ -4,7 +4,7 @@ import { addJobAPI, deleteJobAPI, getCompanyApplicantsAPI, getCompanyJobsAPI, up
 import { serverURL } from "../../../services/serverURL";
 import { FaUserCircle } from 'react-icons/fa';
 import { Link } from "react-router-dom";
-import { successToast } from "../../../toastHelper";
+import { successToast, errorToast } from "../../../toastHelper";
 
 export default function CompanyDashboard() {
   const [showForm, setShowForm] = useState(false);
@@ -64,14 +64,14 @@ export default function CompanyDashboard() {
   const handleAddJob = async () => {
     for (const key in jobData) {
       if (!jobData[key]) {
-        alert(`Please fill ${key}`);
+        errorToast(`Please fill ${key}`);
         return;
       }
     }
     try {
       const res = await addJobAPI(jobData, reqHeader);
       if (res.status === 200) {
-        alert(res.data.message);
+        successToast(res.data.message || "Job added successfully!");
         fetchJobs();
         setShowForm(false);
         setJobData({
@@ -87,10 +87,10 @@ export default function CompanyDashboard() {
     } catch (err) {
       if (err.response) {
         console.log("Backend error:", err.response.data);
-        successToast(err.response.data.message || "Failed to add job");
+        errorToast(err.response.data.message || "Failed to add job");
       } else {
         console.log("Network error:", err.message);
-        alert("Network error. Please try again.");
+        errorToast("Network error. Please try again.");
       }
     }
   };
@@ -104,16 +104,16 @@ export default function CompanyDashboard() {
         successToast("Job deleted successfully!");
         fetchJobs();
       } else {
-        alert("Failed to delete job. Please try again.");
+        errorToast("Failed to delete job. Please try again.");
         console.log("Delete response:", res);
       }
     } catch (err) {
       if (err.response) {
         console.log("Backend error:", err.response.data);
-        alert(`Error: ${err.response.data.message || "Failed to delete job"}`);
+        errorToast(`Error: ${err.response.data.message || "Failed to delete job"}`);
       } else {
         console.log("Network error:", err.message);
-        alert("Network error. Please try again.");
+        errorToast("Network error. Please try again.");
       }
     }
   };

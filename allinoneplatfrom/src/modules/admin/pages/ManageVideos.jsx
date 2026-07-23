@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { getVideosAPI, addVideoAPI, deleteVideoAPI } from "../../../services/AllAPI";
 import { LiaFileVideoSolid } from "react-icons/lia";
 import { RiVideoUploadLine } from "react-icons/ri";
+import toast from "react-hot-toast";
+
 export default function ManageVideos() {
 
   const [videos, setVideos] = useState([]);
@@ -25,29 +27,37 @@ export default function ManageVideos() {
 
   const addVideo = async () => {
     if (!form.title || !form.youtubeId) {
-      alert("Title & Youtube ID required");
+      toast.error("Title & Youtube ID required");
       return;
     }
 
-    await addVideoAPI(form);
-
-    setForm({
-      title: "",
-      channel: "",
-      views: "",
-      time: "",
-      youtubeId: ""
-    });
-
-    loadVideos();
+    try {
+      await addVideoAPI(form);
+      toast.success("Video added successfully!");
+      setForm({
+        title: "",
+        channel: "",
+        views: "",
+        time: "",
+        youtubeId: ""
+      });
+      loadVideos();
+    } catch (err) {
+      toast.error("Failed to add video");
+    }
   };
 
   const deleteVideo = async (id) => {
     const confirmDelete = window.confirm("Delete this video?");
     if (!confirmDelete) return;
 
-    await deleteVideoAPI(id);
-    loadVideos();
+    try {
+      await deleteVideoAPI(id);
+      toast.success("Video deleted successfully!");
+      loadVideos();
+    } catch (err) {
+      toast.error("Failed to delete video");
+    }
   };
 
   return (

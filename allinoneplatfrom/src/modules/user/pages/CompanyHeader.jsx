@@ -15,7 +15,7 @@ export default function CompanyHeader() {
 
         <div className="flex items-center gap-5 relative">
 
-          <Bell className="w-6 h-6 text-gray-600 cursor-pointer"/>
+          <Bell className="w-6 h-6 text-gray-600 cursor-pointer" />
 
           {/* PROFILE ICON */}
           <div>

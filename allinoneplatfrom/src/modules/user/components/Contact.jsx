@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+import ModernDropdown from "../../../components/ModernDropdown";
+
+const SUBJECT_OPTIONS = [
+    { value: "interview", label: "Interview coaching" },
+    { value: "aptitude", label: "Aptitude practice" },
+    { value: "career", label: "Career roadmap" },
+    { value: "other", label: "Other enquiry" },
+];
 
 const Contact = () => {
+    const [subject, setSubject] = useState("");
     return (
         <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#FAF8F4", minHeight: "100vh", color: "#1a1a1a" }}>
             <style>{`
@@ -260,12 +269,13 @@ const Contact = () => {
                         </div>
                         <div className="field full">
                             <label>Subject</label>
-                            <select>
-                                <option>Interview coaching</option>
-                                <option>Aptitude practice</option>
-                                <option>Career roadmap</option>
-                                <option>Other enquiry</option>
-                            </select>
+                            <ModernDropdown
+                                options={SUBJECT_OPTIONS}
+                                value={subject}
+                                onChange={setSubject}
+                                placeholder="Choose a subject"
+                                variant="minimal"
+                            />
                         </div>
                         <div className="field full">
                             <label>Message</label>

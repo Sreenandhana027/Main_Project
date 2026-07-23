@@ -2,523 +2,184 @@ import { useWishlist } from "../shopping/context/WishlistContext";
 import { useCart } from "../shopping/context/CartContext";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, ShoppingCart, Trash2, ArrowRight, BookmarkX, ExternalLink } from "lucide-react";
+import { useEffect } from "react";
+import { ShoppingCart, Trash2, ArrowRight, BookmarkX, ExternalLink } from "lucide-react";
+
+/**
+ * Shares the PrepVault design tokens used across Home / Cart / Category / New Arrivals:
+ * ink #1E2A38 · ivory #FAF8F4 · paper #FFFFFF · gold #AD8A54
+ * gold-tint #F1E9D8 · line #E7E2D6 · maroon #9B4B3E (remove/destructive accent)
+ * Cormorant Garamond (display) + Jost (body/UI)
+ *
+ * Layout: single uniform grid (no special "featured" card) — every saved
+ * piece gets the same treatment. Motion carries the personality instead:
+ * staggered entrance on load, a smooth reflow + fade/scale exit on removal
+ * (via layout + AnimatePresence popLayout), and a slower, more deliberate
+ * hover choreography (image drifts, a gold rule draws in, actions rise).
+ */
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+  },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+  exit: { opacity: 0, scale: 0.92, transition: { duration: 0.35, ease: "easeIn" } },
+};
 
 export default function WishlistPage() {
-    const { wishlist, removeFromWishlist } = useWishlist();
-    const { addToCart } = useCart();
+  const { wishlist, removeFromWishlist } = useWishlist();
+  const { addToCart } = useCart();
 
-    const featured = wishlist[0];
-    const rest = wishlist.slice(1);
+  // New Arrivals stores the field as `img`, everywhere else it's `image` — fall back either way
+  const imgOf = (item) => item.image || item.img;
 
-    return (
-        <>
-            <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+  useEffect(() => {
+    if (document.getElementById("prepvault-fonts")) return;
+    const link = document.createElement("link");
+    link.id = "prepvault-fonts";
+    link.rel = "stylesheet";
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap";
+    document.head.appendChild(link);
+  }, []);
 
-                .wishlist-root {
-                    min-height: 100vh;
-                    background: #f8f6f2;
-                    font-family: 'DM Sans', sans-serif;
-                    padding: 48px 24px 80px;
-                }
+  return (
+    <div className="min-h-screen bg-[#FAF8F4] text-[#1E2A38] py-14 px-6" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <style>{`
+        .font-display { font-family: 'Cormorant Garamond', serif; }
+        .wl-rule {
+          height: 1px;
+          background: #AD8A54;
+          transform: scaleX(0);
+          transform-origin: left center;
+          transition: transform 0.5s cubic-bezier(0.65,0,0.35,1);
+        }
+        .wl-card:hover .wl-rule { transform: scaleX(1); }
+        .wl-actions {
+          opacity: 0;
+          transform: translateY(10px);
+          transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .wl-card:hover .wl-actions { opacity: 1; transform: translateY(0); }
+      `}</style>
 
-                .wishlist-header {
-                    max-width: 1100px;
-                    margin: 0 auto 56px;
-                    display: flex;
-                    align-items: flex-end;
-                    justify-content: space-between;
-                    border-bottom: 1.5px solid #e0dbd0;
-                    padding-bottom: 24px;
-                }
+      <div className="max-w-7xl mx-auto">
 
-                .wishlist-title {
-                    font-family: 'Playfair Display', serif;
-                    font-size: clamp(2.2rem, 5vw, 3.5rem);
-                    font-weight: 800;
-                    color: #1a1612;
-                    line-height: 1;
-                    letter-spacing: -1px;
-                }
+        {/* HEADER */}
+        <motion.div
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="flex items-end justify-between border-b border-[#E7E2D6] pb-6 mb-14"
+        >
+          <div>
+            <p className="text-xs tracking-[0.3em] uppercase text-[#AD8A54] mb-3">Saved For Later</p>
+            <h1 className="font-display italic text-4xl">Wishlist</h1>
+          </div>
+          {wishlist.length > 0 && (
+            <p className="text-sm text-[#6B7480]">
+              {wishlist.length} {wishlist.length === 1 ? "item" : "items"} saved
+            </p>
+          )}
+        </motion.div>
 
-                .wishlist-title span {
-                    font-style: italic;
-                    color: #b5936b;
-                }
+        {/* EMPTY STATE */}
+        {wishlist.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center py-24 max-w-sm mx-auto"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
+              className="w-16 h-16 mx-auto mb-6 border border-[#E7E2D6] rounded-full flex items-center justify-center"
+            >
+              <BookmarkX size={26} className="text-[#AD8A54]" />
+            </motion.div>
+            <p className="font-display italic text-3xl mb-3">Nothing saved yet</p>
+            <div className="h-px w-16 bg-[#AD8A54] mx-auto mb-6" />
+            <p className="text-sm text-[#6B7480] leading-relaxed mb-9">
+              Browse the collection and save the pieces that speak to you.
+            </p>
+            <Link to="/shopping">
+              <button className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#1E2A38] text-[#FAF8F4] text-[13px] tracking-widest uppercase hover:bg-[#AD8A54] hover:text-[#1E2A38] transition-colors duration-500">
+                Explore Collection <ArrowRight size={15} />
+              </button>
+            </Link>
+          </motion.div>
+        )}
 
-                .wishlist-count {
-                    font-size: 13px;
-                    color: #9e9488;
-                    font-weight: 500;
-                    letter-spacing: 0.08em;
-                    text-transform: uppercase;
-                    margin-bottom: 6px;
-                }
+        {/* UNIFORM GRID — every item gets the same card, motion does the differentiation */}
+        {wishlist.length > 0 && (
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7"
+          >
+            <AnimatePresence mode="popLayout">
+              {wishlist.map((item) => (
+                <motion.div
+                  key={item._id}
+                  layout
+                  variants={cardVariant}
+                  initial="hidden"
+                  animate="show"
+                  exit="exit"
+                  whileHover={{ y: -6 }}
+                  transition={{ layout: { duration: 0.4, ease: "easeInOut" } }}
+                  className="wl-card group bg-white border border-[#E7E2D6] overflow-hidden"
+                >
+                  <div className="relative overflow-hidden h-64 bg-[#F5F2EB]">
+                    <img
+                      src={imgOf(item)}
+                      alt={item.name}
+                      className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1E2A38]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                /* FEATURED BIG CARD */
-                .featured-card {
-                    max-width: 1100px;
-                    margin: 0 auto 40px;
-                    display: grid;
-                    grid-template-columns: 1.2fr 1fr;
-                    gap: 0;
-                    background: #fff;
-                    border-radius: 20px;
-                    overflow: hidden;
-                    box-shadow: 0 4px 40px rgba(0,0,0,0.07);
-                    position: relative;
-                }
+                    <motion.button
+                      onClick={() => removeFromWishlist(item._id)}
+                      whileTap={{ scale: 0.9 }}
+                      title="Remove from wishlist"
+                      className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/95 text-[#9B4B3E] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-sm"
+                    >
+                      <Trash2 size={14} />
+                    </motion.button>
 
-                @media (max-width: 720px) {
-                    .featured-card { grid-template-columns: 1fr; }
-                }
-
-                .featured-badge {
-                    position: absolute;
-                    top: 20px;
-                    left: 20px;
-                    background: #1a1612;
-                    color: #f8f6f2;
-                    font-size: 10px;
-                    font-weight: 600;
-                    letter-spacing: 0.15em;
-                    text-transform: uppercase;
-                    padding: 6px 14px;
-                    border-radius: 100px;
-                    z-index: 2;
-                }
-
-                .featured-img-wrap {
-                    position: relative;
-                    overflow: hidden;
-                    height: 420px;
-                }
-
-                .featured-img-wrap img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    transition: transform 0.6s ease;
-                }
-
-                .featured-card:hover .featured-img-wrap img {
-                    transform: scale(1.04);
-                }
-
-                .featured-info {
-                    padding: 44px 40px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                }
-
-                .featured-name {
-                    font-family: 'Playfair Display', serif;
-                    font-size: 2rem;
-                    font-weight: 700;
-                    color: #1a1612;
-                    line-height: 1.2;
-                    margin-bottom: 12px;
-                }
-
-                .featured-price {
-                    font-size: 1.6rem;
-                    font-weight: 600;
-                    color: #b5936b;
-                    margin-bottom: 8px;
-                }
-
-                .featured-stock {
-                    font-size: 12px;
-                    color: #7ab57a;
-                    font-weight: 600;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-                    margin-bottom: 32px;
-                }
-
-                .featured-stock::before {
-                    content: '';
-                    width: 6px; height: 6px;
-                    border-radius: 50%;
-                    background: #7ab57a;
-                    display: inline-block;
-                }
-
-                .featured-actions {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 12px;
-                }
-
-                .btn-cart-featured {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 10px;
-                    background: #1a1612;
-                    color: #f8f6f2;
-                    border: none;
-                    border-radius: 12px;
-                    padding: 16px 24px;
-                    font-size: 14px;
-                    font-weight: 600;
-                    font-family: 'DM Sans', sans-serif;
-                    cursor: pointer;
-                    transition: background 0.2s, transform 0.15s;
-                    letter-spacing: 0.03em;
-                }
-
-                .btn-cart-featured:hover {
-                    background: #2d2620;
-                    transform: translateY(-1px);
-                }
-
-                .featured-secondary {
-                    display: flex;
-                    gap: 10px;
-                }
-
-                .btn-remove {
-                    flex: 1;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 8px;
-                    background: transparent;
-                    border: 1.5px solid #e0dbd0;
-                    border-radius: 12px;
-                    padding: 12px;
-                    font-size: 13px;
-                    color: #9e9488;
-                    font-family: 'DM Sans', sans-serif;
-                    cursor: pointer;
-                    transition: all 0.2s;
-                }
-
-                .btn-remove:hover {
-                    border-color: #e8756a;
-                    color: #e8756a;
-                    background: #fff5f4;
-                }
-
-                .btn-view {
-                    flex: 1;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 8px;
-                    background: transparent;
-                    border: 1.5px solid #e0dbd0;
-                    border-radius: 12px;
-                    padding: 12px;
-                    font-size: 13px;
-                    color: #9e9488;
-                    font-family: 'DM Sans', sans-serif;
-                    text-decoration: none;
-                    transition: all 0.2s;
-                }
-
-                .btn-view:hover {
-                    border-color: #b5936b;
-                    color: #b5936b;
-                    background: #fdf8f3;
-                }
-
-                /* GRID CARDS */
-                .grid-section {
-                    max-width: 1100px;
-                    margin: 0 auto;
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                    gap: 24px;
-                }
-
-                .grid-card {
-                    background: #fff;
-                    border-radius: 16px;
-                    overflow: hidden;
-                    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
-                    transition: box-shadow 0.3s, transform 0.3s;
-                }
-
-                .grid-card:hover {
-                    box-shadow: 0 8px 40px rgba(0,0,0,0.10);
-                    transform: translateY(-3px);
-                }
-
-                .grid-img-wrap {
-                    position: relative;
-                    height: 220px;
-                    overflow: hidden;
-                }
-
-                .grid-img-wrap img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    transition: transform 0.5s ease;
-                }
-
-                .grid-card:hover .grid-img-wrap img {
-                    transform: scale(1.06);
-                }
-
-                .grid-overlay {
-                    position: absolute;
-                    inset: 0;
-                    background: linear-gradient(to top, rgba(26,22,18,0.5) 0%, transparent 60%);
-                    opacity: 0;
-                    transition: opacity 0.3s;
-                    display: flex;
-                    align-items: flex-end;
-                    padding: 16px;
-                }
-
-                .grid-card:hover .grid-overlay {
-                    opacity: 1;
-                }
-
-                .overlay-btn {
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 8px;
-                    background: #fff;
-                    border: none;
-                    border-radius: 10px;
-                    padding: 10px;
-                    font-size: 13px;
-                    font-weight: 600;
-                    color: #1a1612;
-                    cursor: pointer;
-                    font-family: 'DM Sans', sans-serif;
-                    transition: background 0.2s;
-                }
-
-                .overlay-btn:hover { background: #f8f6f2; }
-
-                .grid-info {
-                    padding: 18px 20px 20px;
-                }
-
-                .grid-name {
-                    font-family: 'Playfair Display', serif;
-                    font-size: 1.05rem;
-                    font-weight: 600;
-                    color: #1a1612;
-                    margin-bottom: 6px;
-                    line-height: 1.3;
-                }
-
-                .grid-price {
-                    font-size: 1rem;
-                    font-weight: 600;
-                    color: #b5936b;
-                    margin-bottom: 14px;
-                }
-
-                .grid-actions {
-                    display: flex;
-                    gap: 8px;
-                }
-
-                .grid-btn-remove {
-                    width: 36px; height: 36px;
-                    display: flex; align-items: center; justify-content: center;
-                    border: 1.5px solid #e0dbd0;
-                    border-radius: 10px;
-                    background: transparent;
-                    color: #c0b9ae;
-                    cursor: pointer;
-                    transition: all 0.2s;
-                    flex-shrink: 0;
-                }
-
-                .grid-btn-remove:hover {
-                    border-color: #e8756a;
-                    color: #e8756a;
-                    background: #fff5f4;
-                }
-
-                .grid-btn-view {
-                    width: 36px; height: 36px;
-                    display: flex; align-items: center; justify-content: center;
-                    border: 1.5px solid #e0dbd0;
-                    border-radius: 10px;
-                    background: transparent;
-                    color: #c0b9ae;
-                    text-decoration: none;
-                    transition: all 0.2s;
-                    flex-shrink: 0;
-                }
-
-                .grid-btn-view:hover {
-                    border-color: #b5936b;
-                    color: #b5936b;
-                    background: #fdf8f3;
-                }
-
-                /* EMPTY STATE */
-                .empty-wrap {
-                    max-width: 420px;
-                    margin: 80px auto;
-                    text-align: center;
-                }
-
-                .empty-icon {
-                    width: 80px; height: 80px;
-                    margin: 0 auto 24px;
-                    background: #fff;
-                    border-radius: 50%;
-                    display: flex; align-items: center; justify-content: center;
-                    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-                }
-
-                .empty-title {
-                    font-family: 'Playfair Display', serif;
-                    font-size: 1.8rem;
-                    font-weight: 700;
-                    color: #1a1612;
-                    margin-bottom: 10px;
-                }
-
-                .empty-sub {
-                    font-size: 14px;
-                    color: #9e9488;
-                    margin-bottom: 28px;
-                    line-height: 1.6;
-                }
-
-                .empty-link {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 8px;
-                    background: #1a1612;
-                    color: #f8f6f2;
-                    text-decoration: none;
-                    padding: 14px 28px;
-                    border-radius: 100px;
-                    font-size: 14px;
-                    font-weight: 600;
-                    transition: background 0.2s, transform 0.15s;
-                }
-
-                .empty-link:hover {
-                    background: #2d2620;
-                    transform: translateY(-1px);
-                }
-            `}</style>
-
-            <div className="wishlist-root">
-
-                {/* HEADER */}
-                <div className="wishlist-header">
-                    <div>
-                        <p className="wishlist-count">Curated Collection</p>
-                        <h1 className="wishlist-title">My <span>Wishlist</span></h1>
+                    <div className="wl-actions absolute inset-x-0 bottom-0 p-4">
+                      <button
+                        onClick={() => addToCart(item)}
+                        className="w-full flex items-center justify-center gap-2 bg-white py-3 text-xs uppercase tracking-widest text-[#1E2A38] hover:bg-[#AD8A54] hover:text-white transition-colors duration-300"
+                      >
+                        <ShoppingCart size={13} /> Add to Cart
+                      </button>
                     </div>
-                    {wishlist.length > 0 && (
-                        <p style={{ fontSize: 14, color: "#9e9488", fontWeight: 500 }}>
-                            {wishlist.length} {wishlist.length === 1 ? "item" : "items"} saved
-                        </p>
-                    )}
-                </div>
+                  </div>
 
-                {wishlist.length === 0 ? (
-                    <div className="empty-wrap">
-                        <div className="empty-icon">
-                            <BookmarkX size={36} color="#c0b9ae" />
-                        </div>
-                        <h2 className="empty-title">Nothing saved yet</h2>
-                        <p className="empty-sub">Browse our collection and save the pieces that speak to you.</p>
-                        <Link to="/shopping" className="empty-link">
-                            Explore Collection <ArrowRight size={16} />
-                        </Link>
-                    </div>
-                ) : (
-                    <>
-                        {/* FEATURED FIRST ITEM */}
-                        {featured && (
-                            <motion.div
-                                className="featured-card"
-                                initial={{ opacity: 0, y: 24 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5 }}
-                            >
-                                <span className="featured-badge">✦ Top Pick</span>
-                                <div className="featured-img-wrap">
-                                    <img src={featured.image} alt={featured.name} />
-                                </div>
-                                <div className="featured-info">
-                                    <div>
-                                        <h2 className="featured-name">{featured.name}</h2>
-                                        <p className="featured-price">₹{featured.price}</p>
-                                        <p className="featured-stock">In Stock</p>
-                                    </div>
-                                    <div className="featured-actions">
-                                        <button className="btn-cart-featured" onClick={() => addToCart(featured)}>
-                                            <ShoppingCart size={16} /> Add to Cart
-                                        </button>
-                                        <div className="featured-secondary">
-                                            <button className="btn-remove" onClick={() => removeFromWishlist(featured._id)}>
-                                                <Trash2 size={14} /> Remove
-                                            </button>
-                                            <Link to={`/product/${featured._id}`} className="btn-view">
-                                                <ExternalLink size={14} /> Details
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )}
-
-                        {/* REST AS GRID */}
-                        {rest.length > 0 && (
-                            <div className="grid-section">
-                                <AnimatePresence>
-                                    {rest.map((item, i) => (
-                                        <motion.div
-                                            key={item._id}
-                                            className="grid-card"
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, scale: 0.95 }}
-                                            transition={{ duration: 0.35, delay: i * 0.07 }}
-                                        >
-                                            <div className="grid-img-wrap">
-                                                <img src={item.image} alt={item.name} />
-                                                <div className="grid-overlay">
-                                                    <button className="overlay-btn" onClick={() => addToCart(item)}>
-                                                        <ShoppingCart size={15} /> Add to Cart
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div className="grid-info">
-                                                <p className="grid-name">{item.name}</p>
-                                                <p className="grid-price">₹{item.price}</p>
-                                                <div className="grid-actions">
-                                                    <button className="grid-btn-remove" onClick={() => removeFromWishlist(item._id)} title="Remove">
-                                                        <Trash2 size={14} />
-                                                    </button>
-                                                    <Link to={`/product/${item._id}`} className="grid-btn-view" title="View Details">
-                                                        <ExternalLink size={14} />
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </AnimatePresence>
-                            </div>
-                        )}
-                    </>
-                )}
-            </div>
-        </>
-    );
+                  <div className="p-5">
+                    <Link to={`/product/${item._id}`} className="flex items-start justify-between gap-2 mb-1">
+                      <p className="font-display italic text-lg leading-snug line-clamp-1">{item.name}</p>
+                      <ExternalLink size={13} className="text-[#C9C0AC] group-hover:text-[#AD8A54] transition-colors duration-300 mt-1.5 shrink-0" />
+                    </Link>
+                    <p className="font-display italic text-base text-[#1E2A38] mb-3">₹{item.price}</p>
+                    <div className="wl-rule w-full" />
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        )}
+      </div>
+    </div>
+  );
 }

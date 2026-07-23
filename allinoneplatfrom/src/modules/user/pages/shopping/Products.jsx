@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useCart } from "../shopping/context/CartContext";
 import { useEffect, useState } from "react";
 import { getProductsAPI } from "../../../../services/AllAPI";
+import toast from "react-hot-toast";
 
 export default function Products() {
   const { category } = useParams();
@@ -22,7 +23,7 @@ export default function Products() {
         setLoading(false);
       }
     };
-    
+
     fetchProducts();
   }, [category]);
 
@@ -60,13 +61,13 @@ function ProductCard({ product }) {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
-    alert(`${product.name} added to your bag!`);
+    toast.success(`${product.name} added to your bag!`);
   };
 
   // Calculate discounted price
   const originalPrice = product.price;
-  const discountedPrice = product.discount 
-    ? Math.round(originalPrice - (originalPrice * product.discount / 100)) 
+  const discountedPrice = product.discount
+    ? Math.round(originalPrice - (originalPrice * product.discount / 100))
     : originalPrice;
 
   return (
@@ -107,12 +108,12 @@ function ProductCard({ product }) {
             </p>
           )}
           {product.description && (
-             <p className="text-sm text-gray-500 line-clamp-2 mt-2 mb-3">
+            <p className="text-sm text-gray-500 line-clamp-2 mt-2 mb-3">
               {product.description}
-             </p>
+            </p>
           )}
         </div>
-        
+
         <div className="mt-auto">
           {product.discount > 0 ? (
             <div className="flex items-center justify-center gap-3">

@@ -18,8 +18,6 @@ const adminjwtMiddleware = (req, res, next) => {
 
         if (req.role !== "admin") {
             return res.status(403).json("Authorization failed...only access for Admin");
-            console.log(decoded);
-
         }
 
         next(); // proceed only if admin

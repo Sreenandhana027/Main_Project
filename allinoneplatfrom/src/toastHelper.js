@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 
 export const successToast = (msg) => {
     toast.success(msg);
@@ -9,5 +9,5 @@ export const errorToast = (msg) => {
 };
 
 export const infoToast = (msg) => {
-    toast.info(msg);
+    toast(msg);
 };

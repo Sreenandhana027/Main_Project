@@ -1,17 +1,17 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Briefcase, 
-  MapPin, 
-  DollarSign, 
-  Clock, 
-  ArrowLeft, 
-  Building2, 
-  Calendar,
-  ChevronRight,
-  ShieldCheck,
-  Send
+import {
+    Briefcase,
+    MapPin,
+    DollarSign,
+    Clock,
+    ArrowLeft,
+    Building2,
+    Calendar,
+    ChevronRight,
+    ShieldCheck,
+    Send
 } from "lucide-react";
 import { getSingleJobAPI } from "../../../services/AllAPI";
 
@@ -39,7 +39,7 @@ const JobDetails = () => {
         return (
             <div className="min-h-screen bg-white flex items-center justify-center">
                 <div className="text-center">
-                    <motion.div 
+                    <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                         className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full mx-auto mb-4"
@@ -52,7 +52,7 @@ const JobDetails = () => {
 
     return (
         <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-50 via-slate-50 to-white text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
-            
+
             {/* Header / Breadcrumb */}
             <div className="max-w-7xl mx-auto px-6 pt-24 pb-8">
                 <motion.button
@@ -67,17 +67,17 @@ const JobDetails = () => {
             </div>
 
             <main className="max-w-7xl mx-auto px-6 pb-24 grid lg:grid-cols-3 gap-10">
-                
+
                 {/* LEFT COLUMN: Main Job Info */}
                 <div className="lg:col-span-2 space-y-8">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-8 md:p-12 shadow-2xl shadow-indigo-500/5 relative overflow-hidden"
                     >
                         {/* Decorative Background Element */}
                         <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
-                        
+
                         <div className="relative z-10">
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                                 <div>
@@ -98,7 +98,7 @@ const JobDetails = () => {
                                         {job.department}
                                     </p>
                                 </div>
-                                
+
                                 {/* <div className="hidden md:block w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl rotate-3 shadow-lg shadow-indigo-500/20 flex items-center justify-center">
                                     <Briefcase size={36} className="text-white" />
                                 </div> */}
@@ -125,7 +125,7 @@ const JobDetails = () => {
 
                 {/* RIGHT COLUMN: Sidebar Info */}
                 <div className="lg:col-span-1">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.1 }}
@@ -138,7 +138,7 @@ const JobDetails = () => {
 
                         <div className="relative z-10">
                             <h3 className="text-2xl font-black mb-8 tracking-tight">Job Insights</h3>
-                            
+
                             <div className="space-y-4">
                                 <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
                                     <div className="w-10 h-10 bg-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-300">
@@ -180,7 +180,7 @@ const JobDetails = () => {
                                 Apply Now
                                 <ChevronRight size={18} />
                             </motion.button>
-                            
+
                             <p className="text-center mt-6 text-slate-500 text-xs font-bold flex items-center justify-center gap-2">
                                 <Send size={12} />
                                 Responds within 48 hours

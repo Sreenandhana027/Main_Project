@@ -59,6 +59,7 @@ import UserSettings from './modules/user/pages/UserSetting.jsx';
 import AboutPage from './modules/user/components/About.jsx';
 import ManageProducts from './modules/admin/pages/ManageProducts.jsx';
 import ManageAptitudeQuestions from './modules/admin/pages/ManageAptitudeQuestions.jsx';
+import NewArrivalDetails from './modules/user/pages/shopping/NewArrivalDetails.jsx';
 
 
 
@@ -153,6 +154,7 @@ function App() {
             <Route path="payment-error" element={<PaymentErorr />} />
             <Route path="/orders" element={<MyOrders />} />
             <Route path="/newarrival" element={<NewArrivals />} />
+            <Route path="/newarrival/:id" element={<NewArrivalDetails />} />
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/wishlist" element={<WishlistPage />} />
 

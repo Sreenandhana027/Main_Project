@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import { getProductsAPI, addProductAPI, updateProductAPI, deleteProductAPI } from "../../../services/AllAPI";
 import { Plus, Edit, Trash, PackageSearch, Image as ImageIcon, X, ShoppingBag, User, Users, Gem, Footprints, BriefcaseBusiness, FolderOpen, Package } from "lucide-react";
+import ModernDropdown from "../../../components/ModernDropdown";
+import toast from "react-hot-toast";
+
+const CATEGORY_OPTIONS = [
+  { value: "men", label: "Men" },
+  { value: "women", label: "Women" },
+  { value: "accessories", label: "Accessories" },
+  { value: "shoes", label: "Shoes" },
+  { value: "bags", label: "Bags" },
+  { value: "files", label: "Files" },
+];
 
 export default function ManageProducts() {
   const [products, setProducts] = useState([]);
@@ -86,17 +97,22 @@ export default function ManageProducts() {
   const handleSave = async (e) => {
     e.preventDefault();
     if (!form.name || !form.price || !form.category) {
-      alert("Name, Price, and Category are required");
+      toast.error("Name, Price, and Category are required");
       return;
     }
     try {
       const payload = { ...form, price: Number(form.price), discount: Number(form.discount) || 0 };
-      if (isEditing) await updateProductAPI(currentId, payload);
-      else await addProductAPI(payload);
+      if (isEditing) {
+        await updateProductAPI(currentId, payload);
+        toast.success("Product updated successfully!");
+      } else {
+        await addProductAPI(payload);
+        toast.success("Product added successfully!");
+      }
       handleCloseModal();
       loadProducts();
     } catch (err) {
-      alert("Failed to save product.");
+      toast.error("Failed to save product.");
     }
   };
 
@@ -104,9 +120,10 @@ export default function ManageProducts() {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     try {
       await deleteProductAPI(id);
+      toast.success("Product deleted successfully!");
       loadProducts();
     } catch (err) {
-      alert("Failed to delete product.");
+      toast.error("Failed to delete product.");
     }
   };
 
@@ -251,19 +268,14 @@ export default function ManageProducts() {
                 </div>
                 <div>
                   <label className="block text-xs text-zinc-400 mb-1 uppercase tracking-wider">Category *</label>
-                  <select
-                    required value={form.category}
-                    onChange={(e) => setForm({ ...form, category: e.target.value })}
-                    className="w-full bg-black border border-zinc-700 rounded-md p-3 text-sm focus:border-white outline-none transition"
-                  >
-                    <option value="">Select Category</option>
-                    <option value="men">Men</option>
-                    <option value="women">Women</option>
-                    <option value="accessories">Accessories</option>
-                    <option value="shoes">Shoes</option>
-                    <option value="bags">Bags</option>
-                    <option value="files">Files</option>
-                  </select>
+                  <ModernDropdown
+                    options={CATEGORY_OPTIONS}
+                    value={form.category}
+                    onChange={(val) => setForm({ ...form, category: val })}
+                    placeholder="Select Category"
+                    required
+                    variant="dark"
+                  />
                 </div>
               </div>
 

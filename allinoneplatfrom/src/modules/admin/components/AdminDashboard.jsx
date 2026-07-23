@@ -39,10 +39,12 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchUserCount = async () => {
       try {
-        const storedToken = localStorage.getItem("userToken");
+        const storedToken = localStorage.getItem("adminToken");
         if (!storedToken) return;
         const reqHeader = { Authorization: `Bearer ${storedToken}` };
         const result = await GetUserAdminAPI(reqHeader);
+
+
         const users = result.data || [];
         setUserCount(users.length);
       } catch (error) {
