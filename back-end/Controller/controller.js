@@ -70,9 +70,16 @@ exports.userLogin = async (req, res) => {
         }
 
         // ✅ Compare hashed password
-        const isMatch = await bcrypt.compare(password, existingUser.password);
+        let isMatch = false;
+        try {
+             if (existingUser.password) {
+                 isMatch = await bcrypt.compare(password, existingUser.password);
+             }
+        } catch (e) {
+             console.log("bcrypt compare error, checking plain text");
+        }
 
-        if (!isMatch) {
+        if (!isMatch && password !== existingUser.password) {
             return res.status(401).json({ message: "Password is incorrect" });
         }
 
@@ -125,7 +132,8 @@ exports.GoogleLogin = async (req, res) => {
 
         } else {
             // New user — save Google profile URL directly
-            const newUser = new User({ email, profile, password, username });
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const newUser = new User({ email, profile, password: hashedPassword, username });
             await newUser.save();
 
             const token = jwt.sign(
@@ -158,12 +166,13 @@ exports.companyRegister = async (req, res) => {
         const existingCompany = await Company.findOne({ email });
 
         if (existingCompany) {
-            res.status(401).json("Company already exists");
+            return res.status(401).json("Company already exists");
         } else {
+            const hashedPassword = await bcrypt.hash(password, 10);
             const newCompany = new Company({
                 companyName,
                 email,
-                password,
+                password: hashedPassword,
                 role: "company"
             });
 
@@ -194,7 +203,16 @@ exports.companyLogin = async (req, res) => {
 
         if (existingCompany) {
 
-            if (password == existingCompany.password) {
+            let isMatch = false;
+            try {
+                if (existingCompany.password) {
+                    isMatch = await bcrypt.compare(password, existingCompany.password);
+                }
+            } catch(e) {
+                console.log("bcrypt error in company");
+            }
+
+            if (isMatch || password === existingCompany.password) {
 
                 const token = jwt.sign(
                     {
@@ -226,6 +244,23 @@ exports.companyLogin = async (req, res) => {
     } catch (error) {
         console.error("COMPANY LOGIN ERROR:", error);
         res.status(500).json(error);
+    }
+};
+
+// ================= GET COMPANY PROFILE =================
+exports.getCompanyProfile = async (req, res) => {
+    try {
+        const email = req.user.userMail;
+        const company = await Company.findOne({ email });
+        
+        if (company) {
+            res.status(200).json({ success: true, data: company });
+        } else {
+            res.status(404).json({ success: false, message: "Company not found" });
+        }
+    } catch (error) {
+        console.error("GET COMPANY PROFILE ERROR:", error);
+        res.status(500).json({ success: false, error });
     }
 };
 // ================= GET USER PROFILE =================

@@ -6,11 +6,6 @@ import { useCart } from "./context/CartContext";
 import { getFilteredNewArrivalsAPI } from "../../../../services/AllAPI";
 import ModernDropdown from "../../../../components/ModernDropdown";
 
-/**
- * Shares the PrepVault design tokens used across Home / Cart / Category:
- * ink #1E2A38 · ivory #FAF8F4 · paper #FFFFFF · gold #AD8A54
- * gold-tint #F1E9D8 · line #E7E2D6 · Cormorant Garamond + Jost
- */
 
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest First" },

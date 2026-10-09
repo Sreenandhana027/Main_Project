@@ -88,6 +88,7 @@ export default function LoginCompany() {
       const response = await companyLoginAPI({ email: userData.email, password: userData.password });
       if (response.status === 200) {
         localStorage.setItem("companyToken", response.data.token);
+        localStorage.setItem("company", JSON.stringify(response.data.existingCompany));
         successToast("Welcome back!");
         const role = response.data.existingCompany.role;
         if (role === "admin") navigate("/adminpre");

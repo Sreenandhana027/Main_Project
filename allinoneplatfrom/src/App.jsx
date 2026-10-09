@@ -97,7 +97,7 @@ function App() {
       />
 
 
-      <CustomCursor />
+      {/* <CustomCursor /> */}
 
       {/* CartProvider wraps ONLY the shopping-related routes */}
       <WishlistProvider>

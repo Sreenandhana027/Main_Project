@@ -35,6 +35,7 @@ route.post("/api/google-login", controller.GoogleLogin);
 
 route.post("/api/company/register", controller.companyRegister);
 route.post("/api/company/login", controller.companyLogin);
+route.get("/api/company/profile", jwtmiddleware, controller.getCompanyProfile);
 
 
 

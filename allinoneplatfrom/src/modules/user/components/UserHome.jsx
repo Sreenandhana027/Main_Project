@@ -90,23 +90,21 @@ function UserHome() {
 
           {/* Hero Section */}
           <section className="flex flex-col items-center text-center mt-20 px-6">
-            <h1 className="text-5xl font-extrabold tracking-tight">
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-4">
               Welcome to{" "}
-              <span className="border-b-[3px] border-black">PrepVault</span>
+              <span className="text-gradient drop-shadow-sm">PrepVault</span>
             </h1>
 
-            <p className="mt-4 text-lg max-w-2xl text-gray-700 leading-relaxed">
+            <p className="mt-4 text-xl max-w-2xl text-gray-600 leading-relaxed font-medium">
               A modern platform that connects job seekers, companies, and
-              Discover opportunities, grow faster, and manage smarter.
+              institutions. Discover opportunities, grow faster, and manage smarter.
             </p>
 
             <button
               onClick={handleStart}
-              className="mt-8 px-10 py-3 border border-black rounded-lg
-              text-lg font-semibold hover:bg-black hover:text-white
-              transition-all duration-300"
+              className="btn-premium mt-10 text-lg shadow-xl shadow-indigo-500/20"
             >
-              <span>Start Your Path</span>
+              Start Your Path
             </button>
           </section>
 
@@ -150,33 +148,33 @@ function UserHome() {
 
           {/* Summary Section */}
           <section className="mt-24 px-10 mb-20">
-            <h2 className="text-3xl font-bold text-center mb-6">Why PrepVault?</h2>
+            <div className="premium-card max-w-4xl mx-auto p-12 text-center">
+              <h2 className="text-4xl font-extrabold text-gray-900 mb-6">Why <span className="text-gradient">PrepVault</span>?</h2>
 
-            <div className="text-center max-w-3xl mx-auto text-gray-700 text-lg leading-relaxed">
-              PrepVault brings together everything needed for a smooth hiring experience.
-              Our platform delivers powerful tools for every user role:
-              <br /><br />
+              <div className="text-center mx-auto text-gray-700 text-lg leading-relaxed font-medium">
+                PrepVault brings together everything needed for a smooth hiring experience.
+                Our platform delivers powerful tools for every user role:
+                <br /><br />
 
-              <div className="flex flex-col gap-3 items-center text-left mx-auto w-fit">
-                <div className="flex items-center gap-3">
-                  <span className="text-black font-bold">➤</span>
-                  <span>A clean and intuitive dashboard for jobseekers</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-black font-bold">➤</span>
-                  <span>Company tools for posting jobs & tracking applications</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-black font-bold">➤</span>
-                  <span>Admin controls for monitoring users and jobs</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-black font-bold">➤</span>
-                  <span>AI-based suggestions for skills, roles & career roadmaps</span>
+                <div className="flex flex-col gap-4 items-start text-left mx-auto w-fit bg-white/50 p-8 rounded-3xl border border-white/60 shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">✓</div>
+                    <span className="text-gray-800">A clean and intuitive dashboard for jobseekers</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 h-8 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold">✓</div>
+                    <span className="text-gray-800">Company tools for posting jobs & tracking applications</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold">✓</div>
+                    <span className="text-gray-800">Admin controls for monitoring users and jobs</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">✓</div>
+                    <span className="text-gray-800">AI-based suggestions for skills, roles & career roadmaps</span>
+                  </div>
                 </div>
               </div>
-
-              <br />
             </div>
           </section>
 

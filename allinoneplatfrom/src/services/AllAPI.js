@@ -29,6 +29,10 @@ export const companyLoginAPI = async (reqBody) => {
     return await commanAPI("POST", `${serverURL}/api/company/login`, reqBody, {});
 };
 
+export const GetCompanyProfileAPI = async (reqHeader) => {
+    return await commanAPI("GET", `${serverURL}/api/company/profile`, "", reqHeader);
+};
+
 
 /* ================= USER PROFILE ================= */
 
